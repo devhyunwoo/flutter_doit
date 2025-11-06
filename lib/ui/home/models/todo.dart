@@ -8,6 +8,7 @@ class TodoModel with _$TodoModel {
     required int id,
     required String title,
     required String content,
+    required DateTime dateTime,
     @Default(false) bool isDone,
   }) = _TodoModel;
 }

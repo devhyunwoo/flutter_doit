@@ -20,6 +20,7 @@ mixin _$TodoModel {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
+  DateTime get dateTime => throw _privateConstructorUsedError;
   bool get isDone => throw _privateConstructorUsedError;
 
   /// Create a copy of TodoModel
@@ -34,7 +35,13 @@ abstract class $TodoModelCopyWith<$Res> {
   factory $TodoModelCopyWith(TodoModel value, $Res Function(TodoModel) then) =
       _$TodoModelCopyWithImpl<$Res, TodoModel>;
   @useResult
-  $Res call({int id, String title, String content, bool isDone});
+  $Res call({
+    int id,
+    String title,
+    String content,
+    DateTime dateTime,
+    bool isDone,
+  });
 }
 
 /// @nodoc
@@ -55,6 +62,7 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
     Object? id = null,
     Object? title = null,
     Object? content = null,
+    Object? dateTime = null,
     Object? isDone = null,
   }) {
     return _then(
@@ -71,6 +79,10 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
                 ? _value.content
                 : content // ignore: cast_nullable_to_non_nullable
                       as String,
+            dateTime: null == dateTime
+                ? _value.dateTime
+                : dateTime // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
             isDone: null == isDone
                 ? _value.isDone
                 : isDone // ignore: cast_nullable_to_non_nullable
@@ -90,7 +102,13 @@ abstract class _$$TodoModelImplCopyWith<$Res>
   ) = __$$TodoModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String title, String content, bool isDone});
+  $Res call({
+    int id,
+    String title,
+    String content,
+    DateTime dateTime,
+    bool isDone,
+  });
 }
 
 /// @nodoc
@@ -110,6 +128,7 @@ class __$$TodoModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? content = null,
+    Object? dateTime = null,
     Object? isDone = null,
   }) {
     return _then(
@@ -126,6 +145,10 @@ class __$$TodoModelImplCopyWithImpl<$Res>
             ? _value.content
             : content // ignore: cast_nullable_to_non_nullable
                   as String,
+        dateTime: null == dateTime
+            ? _value.dateTime
+            : dateTime // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
         isDone: null == isDone
             ? _value.isDone
             : isDone // ignore: cast_nullable_to_non_nullable
@@ -142,6 +165,7 @@ class _$TodoModelImpl implements _TodoModel {
     required this.id,
     required this.title,
     required this.content,
+    required this.dateTime,
     this.isDone = false,
   });
 
@@ -152,12 +176,14 @@ class _$TodoModelImpl implements _TodoModel {
   @override
   final String content;
   @override
+  final DateTime dateTime;
+  @override
   @JsonKey()
   final bool isDone;
 
   @override
   String toString() {
-    return 'TodoModel(id: $id, title: $title, content: $content, isDone: $isDone)';
+    return 'TodoModel(id: $id, title: $title, content: $content, dateTime: $dateTime, isDone: $isDone)';
   }
 
   @override
@@ -168,11 +194,14 @@ class _$TodoModelImpl implements _TodoModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
+            (identical(other.dateTime, dateTime) ||
+                other.dateTime == dateTime) &&
             (identical(other.isDone, isDone) || other.isDone == isDone));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, content, isDone);
+  int get hashCode =>
+      Object.hash(runtimeType, id, title, content, dateTime, isDone);
 
   /// Create a copy of TodoModel
   /// with the given fields replaced by the non-null parameter values.
@@ -188,6 +217,7 @@ abstract class _TodoModel implements TodoModel {
     required final int id,
     required final String title,
     required final String content,
+    required final DateTime dateTime,
     final bool isDone,
   }) = _$TodoModelImpl;
 
@@ -197,6 +227,8 @@ abstract class _TodoModel implements TodoModel {
   String get title;
   @override
   String get content;
+  @override
+  DateTime get dateTime;
   @override
   bool get isDone;
 
