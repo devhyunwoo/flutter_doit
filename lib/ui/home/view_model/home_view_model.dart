@@ -1,38 +1,56 @@
 import 'dart:async';
 
-import 'package:doit_app/ui/home/models/todo.dart';
+import 'package:doit_app/ui/home/contract/effect/home_effect.dart';
+import 'package:doit_app/ui/home/contract/state/home_state.dart';
+import 'package:doit_app/ui/home/contract/state/todo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final homeViewModelProvider = NotifierProvider<HomeViewModel, List<TodoModel>>(
+import '../contract/event/home_event.dart';
+
+final homeViewModelProvider = NotifierProvider<HomeViewModel, HomeState>(
   HomeViewModel.new,
 );
 
-class HomeViewModel extends Notifier<List<TodoModel>> {
-  // 1. StreamController (내부에서만 사용)
-  final _eventController = StreamController<TodoModel>.broadcast();
+class HomeViewModel extends Notifier<HomeState> {
+  final _effectController = StreamController<HomeEffect>.broadcast();
 
-  // 2. View가 listen할 Stream (외부에 노출)
-  Stream<TodoModel> get events => _eventController.stream;
+  Stream<HomeEffect> get effect => _effectController.stream;
 
   @override
-  List<TodoModel> build() {
-    return <TodoModel>[];
+  HomeState build() {
+    ref.onDispose(() {
+      _effectController.close();
+    });
+    return HomeState(items: <TodoModel>[]);
   }
 
   void addTodo(TodoModel todo) {
-    state = [...state, todo];
+    state = state.copyWith(items: [...state.items, todo]);
   }
 
   void removeTodo(TodoModel todo) {
-    state = state.where((item) => item != todo).toList();
+    state = state.copyWith(
+      items: state.items.where((item) => item.id != todo.id).toList(),
+    );
   }
 
   void toggleDoneButton(TodoModel todo) {
-    state = state
-        .map(
-          (item) =>
-              item.id == todo.id ? item.copyWith(isDone: !item.isDone) : item,
-        )
-        .toList();
+    state = state.copyWith(
+      items: state.items
+          .map(
+            (item) =>
+                item.id == todo.id ? item.copyWith(isDone: !item.isDone) : item,
+          )
+          .toList(),
+    );
+  }
+
+  void setEvent(HomeEvent event) {
+    switch (event) {
+      case OnClickAddTodo():
+        {
+          _effectController.add(ShowBottomSheet());
+        }
+    }
   }
 }

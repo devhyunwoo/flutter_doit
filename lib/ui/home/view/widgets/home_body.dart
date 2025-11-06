@@ -8,11 +8,11 @@ class HomeBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final items = ref.watch(homeViewModelProvider);
+    final state = ref.watch(homeViewModelProvider);
     return ListView.builder(
-      itemCount: items.length,
+      itemCount: state.items.length,
       itemBuilder: (context, index) {
-        final item = items[index];
+        final item = state.items[index];
         return TodoItem(item);
       },
     );

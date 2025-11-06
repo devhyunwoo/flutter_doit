@@ -1,4 +1,4 @@
-import 'package:doit_app/ui/home/models/todo.dart';
+import 'package:doit_app/ui/home/contract/state/todo.dart';
 import 'package:doit_app/ui/home/view_model/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
