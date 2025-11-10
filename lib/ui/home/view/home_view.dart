@@ -1,30 +1,35 @@
 import 'package:doit_app/ui/home/contract/effect/home_effect.dart';
 import 'package:doit_app/ui/home/contract/event/home_event.dart';
-import 'package:doit_app/ui/home/view/widgets/bottom_sheet.dart';
+import 'package:doit_app/ui/home/view/widgets/bottom_sheet/bottom_sheet.dart';
 import 'package:doit_app/ui/home/view/widgets/home_body.dart';
 import 'package:doit_app/ui/home/view_model/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeState extends ConsumerWidget {
+class HomeState extends ConsumerStatefulWidget {
   const HomeState({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(homeViewModelProvider.notifier);
-    final effect = viewModel.effect;
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeState();
+}
 
-    effect.listen((effect) {
-      switch (effect) {
-        case ShowBottomSheet():
-          {
-            showModalBottomSheet(
-              context: context,
-              builder: (context) => HomeBottomSheet(),
-            );
-          }
+class _HomeState extends ConsumerState<HomeState> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(homeViewModelProvider.notifier).effect.listen((effect) {
+      if (effect is ShowBottomSheet) {
+        showModalBottomSheet(
+          context: context,
+          builder: (_) => HomeBottomSheet(),
+        );
       }
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = ref.read(homeViewModelProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
