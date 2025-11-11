@@ -1,7 +1,8 @@
 import 'package:doit_app/ui/home/contract/state/todo.dart';
-import 'package:doit_app/ui/home/view_model/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../di/di.dart';
 
 class TodoItem extends ConsumerWidget {
   final TodoModel todoModel;
@@ -23,7 +24,7 @@ class TodoItem extends ConsumerWidget {
             ),
           ),
           Checkbox(
-            value: todoModel.isDone,
+            value: todoModel.isDone == 0 ? false : true,
             onChanged: (bool? value) {
               ref
                   .read(homeViewModelProvider.notifier)

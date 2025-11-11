@@ -2,9 +2,10 @@ import 'package:doit_app/ui/home/contract/effect/home_effect.dart';
 import 'package:doit_app/ui/home/contract/event/home_event.dart';
 import 'package:doit_app/ui/home/view/widgets/bottom_sheet/bottom_sheet.dart';
 import 'package:doit_app/ui/home/view/widgets/home_body.dart';
-import 'package:doit_app/ui/home/view_model/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../di/di.dart';
 
 class HomeState extends ConsumerStatefulWidget {
   const HomeState({super.key});
@@ -22,7 +23,9 @@ class _HomeState extends ConsumerState<HomeState> {
         showModalBottomSheet(
           context: context,
           builder: (_) => HomeBottomSheet(),
-        );
+        ).whenComplete(() {
+          ref.read(homeViewModelProvider.notifier).setEvent(ReloadData());
+        });
       }
     });
   }

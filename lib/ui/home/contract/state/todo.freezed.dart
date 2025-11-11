@@ -15,13 +15,21 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
+TodoModel _$TodoModelFromJson(Map<String, dynamic> json) {
+  return _TodoModel.fromJson(json);
+}
+
 /// @nodoc
 mixin _$TodoModel {
-  int get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
+  String get imageUrl => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   DateTime get dateTime => throw _privateConstructorUsedError;
-  bool get isDone => throw _privateConstructorUsedError;
+  int get isDone => throw _privateConstructorUsedError;
+
+  /// Serializes this TodoModel to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of TodoModel
   /// with the given fields replaced by the non-null parameter values.
@@ -36,11 +44,12 @@ abstract class $TodoModelCopyWith<$Res> {
       _$TodoModelCopyWithImpl<$Res, TodoModel>;
   @useResult
   $Res call({
-    int id,
+    int? id,
+    String imageUrl,
     String title,
     String content,
     DateTime dateTime,
-    bool isDone,
+    int isDone,
   });
 }
 
@@ -59,7 +68,8 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
+    Object? imageUrl = null,
     Object? title = null,
     Object? content = null,
     Object? dateTime = null,
@@ -67,10 +77,14 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
   }) {
     return _then(
       _value.copyWith(
-            id: null == id
+            id: freezed == id
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
-                      as int,
+                      as int?,
+            imageUrl: null == imageUrl
+                ? _value.imageUrl
+                : imageUrl // ignore: cast_nullable_to_non_nullable
+                      as String,
             title: null == title
                 ? _value.title
                 : title // ignore: cast_nullable_to_non_nullable
@@ -86,7 +100,7 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
             isDone: null == isDone
                 ? _value.isDone
                 : isDone // ignore: cast_nullable_to_non_nullable
-                      as bool,
+                      as int,
           )
           as $Val,
     );
@@ -103,11 +117,12 @@ abstract class _$$TodoModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    int id,
+    int? id,
+    String imageUrl,
     String title,
     String content,
     DateTime dateTime,
-    bool isDone,
+    int isDone,
   });
 }
 
@@ -125,7 +140,8 @@ class __$$TodoModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
+    Object? imageUrl = null,
     Object? title = null,
     Object? content = null,
     Object? dateTime = null,
@@ -133,10 +149,14 @@ class __$$TodoModelImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$TodoModelImpl(
-        id: null == id
+        id: freezed == id
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
-                  as int,
+                  as int?,
+        imageUrl: null == imageUrl
+            ? _value.imageUrl
+            : imageUrl // ignore: cast_nullable_to_non_nullable
+                  as String,
         title: null == title
             ? _value.title
             : title // ignore: cast_nullable_to_non_nullable
@@ -152,25 +172,32 @@ class __$$TodoModelImplCopyWithImpl<$Res>
         isDone: null == isDone
             ? _value.isDone
             : isDone // ignore: cast_nullable_to_non_nullable
-                  as bool,
+                  as int,
       ),
     );
   }
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$TodoModelImpl implements _TodoModel {
   const _$TodoModelImpl({
-    required this.id,
+    this.id,
+    this.imageUrl = '',
     required this.title,
     required this.content,
     required this.dateTime,
-    this.isDone = false,
+    this.isDone = 0,
   });
 
+  factory _$TodoModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TodoModelImplFromJson(json);
+
   @override
-  final int id;
+  final int? id;
+  @override
+  @JsonKey()
+  final String imageUrl;
   @override
   final String title;
   @override
@@ -179,11 +206,11 @@ class _$TodoModelImpl implements _TodoModel {
   final DateTime dateTime;
   @override
   @JsonKey()
-  final bool isDone;
+  final int isDone;
 
   @override
   String toString() {
-    return 'TodoModel(id: $id, title: $title, content: $content, dateTime: $dateTime, isDone: $isDone)';
+    return 'TodoModel(id: $id, imageUrl: $imageUrl, title: $title, content: $content, dateTime: $dateTime, isDone: $isDone)';
   }
 
   @override
@@ -192,6 +219,8 @@ class _$TodoModelImpl implements _TodoModel {
         (other.runtimeType == runtimeType &&
             other is _$TodoModelImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.dateTime, dateTime) ||
@@ -199,9 +228,10 @@ class _$TodoModelImpl implements _TodoModel {
             (identical(other.isDone, isDone) || other.isDone == isDone));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, title, content, dateTime, isDone);
+      Object.hash(runtimeType, id, imageUrl, title, content, dateTime, isDone);
 
   /// Create a copy of TodoModel
   /// with the given fields replaced by the non-null parameter values.
@@ -210,19 +240,30 @@ class _$TodoModelImpl implements _TodoModel {
   @pragma('vm:prefer-inline')
   _$$TodoModelImplCopyWith<_$TodoModelImpl> get copyWith =>
       __$$TodoModelImplCopyWithImpl<_$TodoModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TodoModelImplToJson(this);
+  }
 }
 
 abstract class _TodoModel implements TodoModel {
   const factory _TodoModel({
-    required final int id,
+    final int? id,
+    final String imageUrl,
     required final String title,
     required final String content,
     required final DateTime dateTime,
-    final bool isDone,
+    final int isDone,
   }) = _$TodoModelImpl;
 
+  factory _TodoModel.fromJson(Map<String, dynamic> json) =
+      _$TodoModelImpl.fromJson;
+
   @override
-  int get id;
+  int? get id;
+  @override
+  String get imageUrl;
   @override
   String get title;
   @override
@@ -230,7 +271,7 @@ abstract class _TodoModel implements TodoModel {
   @override
   DateTime get dateTime;
   @override
-  bool get isDone;
+  int get isDone;
 
   /// Create a copy of TodoModel
   /// with the given fields replaced by the non-null parameter values.

@@ -1,6 +1,8 @@
-import 'package:doit_app/ui/home/view/widgets/bottom_sheet/bottom_sheet_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../di/di.dart';
 
 class HomeBottomSheet extends ConsumerWidget {
   const HomeBottomSheet({super.key});
@@ -24,7 +26,12 @@ class HomeBottomSheet extends ConsumerWidget {
           SizedBox(height: 10),
           _dateTimeItem(context, ref),
           SizedBox(height: 10),
-          _TitleItem(ref),
+          _titleItem(ref),
+          SizedBox(height: 10),
+          _contentItem(ref),
+          SizedBox(height: 10),
+          _addButtonItem(context, ref),
+          SizedBox(height: 10),
         ],
       ),
     );
@@ -52,21 +59,83 @@ class HomeBottomSheet extends ConsumerWidget {
               ref.read(bottomSheetProvider.notifier).setDateTime(picker);
             }
           },
-          child: Text('날짜를 변경하세요'),
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.blueAccent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: BorderSide(color: Colors.blue, width: 2),
+            ),
+          ),
+          child: const Text('날짜를 변경하세요'),
         ),
       ],
     );
   }
 
-  Widget _TitleItem(WidgetRef ref) {
+  Widget _titleItem(WidgetRef ref) {
     final title = ref.watch(bottomSheetProvider).title;
     return TextField(
-      decoration: const InputDecoration(labelText: '제목을 입력하세요'),
+      decoration: const InputDecoration(
+        labelText: '제목을 입력하세요',
+        labelStyle: TextStyle(color: Colors.blueAccent),
+        border: OutlineInputBorder(),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 2),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blueAccent, width: 2),
+        ),
+      ),
       controller: TextEditingController(text: title)
         ..selection = TextSelection.fromPosition(
           TextPosition(offset: title.length),
         ),
       onChanged: ref.read(bottomSheetProvider.notifier).setTitle,
+    );
+  }
+
+  Widget _contentItem(WidgetRef ref) {
+    final content = ref.watch(bottomSheetProvider).content;
+    return TextField(
+      decoration: const InputDecoration(
+        labelText: '내용을 입력하세요',
+        labelStyle: TextStyle(color: Colors.blueAccent),
+        border: OutlineInputBorder(),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 2),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blueAccent, width: 2),
+        ),
+      ),
+      controller: TextEditingController(text: content)
+        ..selection = TextSelection.fromPosition(
+          TextPosition(offset: content.length),
+        ),
+      onChanged: ref.read(bottomSheetProvider.notifier).setContent,
+      minLines: 5,
+      maxLines: null,
+    );
+  }
+
+  Widget _addButtonItem(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+          ref.read(bottomSheetProvider.notifier).addTodo();
+          context.pop();
+        },
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.only(top: 20, bottom: 20),
+          foregroundColor: Colors.blueAccent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(color: Colors.blue, width: 2),
+          ),
+        ),
+        child: Text('일정 추가하기'),
+      ),
     );
   }
 }
