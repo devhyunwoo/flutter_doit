@@ -21,8 +21,16 @@ class _HomeState extends ConsumerState<HomeState> {
     ref.read(homeViewModelProvider.notifier).effect.listen((effect) {
       if (effect is ShowBottomSheet) {
         showModalBottomSheet(
+          isScrollControlled: true,
           context: context,
-          builder: (_) => HomeBottomSheet(),
+          builder: (_) => SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: HomeBottomSheet(),
+            ),
+          ),
         ).whenComplete(() {
           ref.read(homeViewModelProvider.notifier).setEvent(ReloadData());
         });
@@ -34,6 +42,7 @@ class _HomeState extends ConsumerState<HomeState> {
   Widget build(BuildContext context) {
     final viewModel = ref.read(homeViewModelProvider.notifier);
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         title: const Text(

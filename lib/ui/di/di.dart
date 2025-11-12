@@ -1,5 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:doit_app/data/datasource/local_datasource.dart';
+import 'package:doit_app/data/repository/api_repository.dart';
 import 'package:doit_app/data/repository/db_repository.dart';
+import 'package:doit_app/data/repository_impl/api_repository_impl.dart';
 import 'package:doit_app/data/repository_impl/db_repository_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
@@ -31,4 +34,25 @@ final localDataSourceProvider = FutureProvider<LocalDatasource>((ref) async {
 final dbRepositoryProvider = FutureProvider<DBRepository>((ref) async {
   final datasource = await ref.watch(localDataSourceProvider.future);
   return DBRepositoryImpl(datasource);
+});
+
+final dioProvider = Provider<Dio>((ref) {
+  final dio = Dio(BaseOptions(baseUrl: 'https://openapi.naver.com'));
+  dio.interceptors.add(
+    InterceptorsWrapper(
+      onRequest: (options, handler) {
+        options.headers.addAll({
+          'X-Naver-Client-Id': 'UeAA6Pxa9l0m9tgyDRbN',
+          'X-Naver-Client-Secret': '7OiqabezBO',
+        });
+        return handler.next(options);
+      },
+    ),
+  );
+  return dio;
+});
+
+final apiRepositoryProvider = Provider<ApiRepository>((ref) {
+  final dio = ref.watch(dioProvider);
+  return ApiRepositoryImpl(dio);
 });

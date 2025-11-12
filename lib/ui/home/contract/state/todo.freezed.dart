@@ -23,7 +23,6 @@ TodoModel _$TodoModelFromJson(Map<String, dynamic> json) {
 mixin _$TodoModel {
   int? get id => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   DateTime get dateTime => throw _privateConstructorUsedError;
   int get isDone => throw _privateConstructorUsedError;
@@ -46,7 +45,6 @@ abstract class $TodoModelCopyWith<$Res> {
   $Res call({
     int? id,
     String imageUrl,
-    String title,
     String content,
     DateTime dateTime,
     int isDone,
@@ -70,7 +68,6 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
   $Res call({
     Object? id = freezed,
     Object? imageUrl = null,
-    Object? title = null,
     Object? content = null,
     Object? dateTime = null,
     Object? isDone = null,
@@ -84,10 +81,6 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
             imageUrl: null == imageUrl
                 ? _value.imageUrl
                 : imageUrl // ignore: cast_nullable_to_non_nullable
-                      as String,
-            title: null == title
-                ? _value.title
-                : title // ignore: cast_nullable_to_non_nullable
                       as String,
             content: null == content
                 ? _value.content
@@ -119,7 +112,6 @@ abstract class _$$TodoModelImplCopyWith<$Res>
   $Res call({
     int? id,
     String imageUrl,
-    String title,
     String content,
     DateTime dateTime,
     int isDone,
@@ -142,7 +134,6 @@ class __$$TodoModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? imageUrl = null,
-    Object? title = null,
     Object? content = null,
     Object? dateTime = null,
     Object? isDone = null,
@@ -156,10 +147,6 @@ class __$$TodoModelImplCopyWithImpl<$Res>
         imageUrl: null == imageUrl
             ? _value.imageUrl
             : imageUrl // ignore: cast_nullable_to_non_nullable
-                  as String,
-        title: null == title
-            ? _value.title
-            : title // ignore: cast_nullable_to_non_nullable
                   as String,
         content: null == content
             ? _value.content
@@ -184,7 +171,6 @@ class _$TodoModelImpl implements _TodoModel {
   const _$TodoModelImpl({
     this.id,
     this.imageUrl = '',
-    required this.title,
     required this.content,
     required this.dateTime,
     this.isDone = 0,
@@ -199,8 +185,6 @@ class _$TodoModelImpl implements _TodoModel {
   @JsonKey()
   final String imageUrl;
   @override
-  final String title;
-  @override
   final String content;
   @override
   final DateTime dateTime;
@@ -210,7 +194,7 @@ class _$TodoModelImpl implements _TodoModel {
 
   @override
   String toString() {
-    return 'TodoModel(id: $id, imageUrl: $imageUrl, title: $title, content: $content, dateTime: $dateTime, isDone: $isDone)';
+    return 'TodoModel(id: $id, imageUrl: $imageUrl, content: $content, dateTime: $dateTime, isDone: $isDone)';
   }
 
   @override
@@ -221,7 +205,6 @@ class _$TodoModelImpl implements _TodoModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
-            (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.dateTime, dateTime) ||
                 other.dateTime == dateTime) &&
@@ -231,7 +214,7 @@ class _$TodoModelImpl implements _TodoModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, imageUrl, title, content, dateTime, isDone);
+      Object.hash(runtimeType, id, imageUrl, content, dateTime, isDone);
 
   /// Create a copy of TodoModel
   /// with the given fields replaced by the non-null parameter values.
@@ -251,7 +234,6 @@ abstract class _TodoModel implements TodoModel {
   const factory _TodoModel({
     final int? id,
     final String imageUrl,
-    required final String title,
     required final String content,
     required final DateTime dateTime,
     final int isDone,
@@ -264,8 +246,6 @@ abstract class _TodoModel implements TodoModel {
   int? get id;
   @override
   String get imageUrl;
-  @override
-  String get title;
   @override
   String get content;
   @override

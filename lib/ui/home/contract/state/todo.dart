@@ -8,7 +8,6 @@ class TodoModel with _$TodoModel {
   const factory TodoModel({
     int? id,
     @Default('') String imageUrl,
-    required String title,
     required String content,
     required DateTime dateTime,
     @Default(0) int isDone,

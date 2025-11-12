@@ -26,8 +26,6 @@ class HomeBottomSheet extends ConsumerWidget {
           SizedBox(height: 10),
           _dateTimeItem(context, ref),
           SizedBox(height: 10),
-          _titleItem(ref),
-          SizedBox(height: 10),
           _contentItem(ref),
           SizedBox(height: 10),
           _addButtonItem(context, ref),
@@ -69,28 +67,6 @@ class HomeBottomSheet extends ConsumerWidget {
           child: const Text('날짜를 변경하세요'),
         ),
       ],
-    );
-  }
-
-  Widget _titleItem(WidgetRef ref) {
-    final title = ref.watch(bottomSheetProvider).title;
-    return TextField(
-      decoration: const InputDecoration(
-        labelText: '제목을 입력하세요',
-        labelStyle: TextStyle(color: Colors.blueAccent),
-        border: OutlineInputBorder(),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 2),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blueAccent, width: 2),
-        ),
-      ),
-      controller: TextEditingController(text: title)
-        ..selection = TextSelection.fromPosition(
-          TextPosition(offset: title.length),
-        ),
-      onChanged: ref.read(bottomSheetProvider.notifier).setTitle,
     );
   }
 

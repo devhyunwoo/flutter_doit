@@ -27,7 +27,6 @@ class DatabaseHelper {
           CREATE TABLE todos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             imageUrl TEXT,
-            title TEXT NOT NULL,
             content TEXT NOT NULL,
             dateTime TEXT NOT NULL,
             isDone INTEGER NOT NULL DEFAULT 0
