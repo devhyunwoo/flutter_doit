@@ -60,6 +60,14 @@ class HomeViewModel extends AsyncNotifier<HomeState> {
         {
           await _removeTodo(event.todo);
         }
+      case OnClickImage():
+        _effectController.add(ShowDialog());
+      case OnChangeQuery():
+        state = AsyncValue.data(
+          (state.value ?? HomeState(items: <TodoModel>[])).copyWith(
+            query: event.query,
+          ),
+        );
     }
   }
 }

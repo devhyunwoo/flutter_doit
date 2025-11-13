@@ -1,3 +1,4 @@
+import 'package:doit_app/ui/home/contract/event/home_event.dart';
 import 'package:doit_app/ui/home/contract/state/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,28 +18,32 @@ class TodoItem extends ConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (todoModel.imageUrl.isEmpty)
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 1),
-                borderRadius: BorderRadius.circular(8)
-              ),
-              child: Icon(Icons.add, size: 45.0),
-            )
-          else
-            Image.network(
-              todoModel.imageUrl,
-              width: 50,
-              height: 50,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return const Center(child: CircularProgressIndicator());
-              },
-              errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.error, color: Colors.red),
-            ),
+          ElevatedButton(
+            onPressed: () {
+              ref.read(homeViewModelProvider.notifier).setEvent(OnClickImage());
+            },
+            child: todoModel.imageUrl.isEmpty
+                ? Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black, width: 1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Icon(Icons.add, size: 45.0),
+                  )
+                : Image.network(
+                    todoModel.imageUrl,
+                    width: 50,
+                    height: 50,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return const Center(child: CircularProgressIndicator());
+                    },
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Icon(Icons.error, color: Colors.red),
+                  ),
+          ),
           SizedBox(width: 10),
           Expanded(
             child: Column(

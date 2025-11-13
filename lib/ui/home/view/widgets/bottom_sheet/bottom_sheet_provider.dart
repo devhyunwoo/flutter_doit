@@ -12,7 +12,6 @@ class BottomSheetNotifier extends AutoDisposeNotifier<TodoModel> {
     state = state.copyWith(dateTime: dateTime);
   }
 
-
   void setContent(String content) {
     state = state.copyWith(content: content);
   }

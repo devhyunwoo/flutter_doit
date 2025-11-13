@@ -11,3 +11,11 @@ class RemoveTodo extends HomeEvent {
 
   RemoveTodo(this.todo);
 }
+
+class OnClickImage extends HomeEvent {}
+
+class OnChangeQuery extends HomeEvent {
+  final String query;
+
+  OnChangeQuery(this.query);
+}

@@ -19,23 +19,74 @@ class _HomeState extends ConsumerState<HomeState> {
   void initState() {
     super.initState();
     ref.read(homeViewModelProvider.notifier).effect.listen((effect) {
-      if (effect is ShowBottomSheet) {
-        showModalBottomSheet(
-          isScrollControlled: true,
-          context: context,
-          builder: (_) => SafeArea(
-            child: Padding(
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
+      switch (effect) {
+        case ShowBottomSheet():
+          {
+            showModalBottomSheet(
+              isScrollControlled: true,
+              context: context,
+              builder: (_) => SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  child: HomeBottomSheet(),
+                ),
               ),
-              child: HomeBottomSheet(),
-            ),
-          ),
-        ).whenComplete(() {
-          ref.read(homeViewModelProvider.notifier).setEvent(ReloadData());
-        });
+            ).whenComplete(() {
+              ref.read(homeViewModelProvider.notifier).setEvent(ReloadData());
+            });
+          }
+
+        case ShowDialog():
+          {
+            showDialog(
+              context: context,
+              builder: (_) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  child: _homeDialog(ref),
+                );
+              },
+            );
+          }
       }
     });
+  }
+
+  Widget _homeDialog(WidgetRef ref) {
+    final query = ref.watch(homeViewModelProvider).value?.query ?? '';
+    return Container(
+      width: double.infinity,
+      height: 50,
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          TextField(
+            onChanged: (query) => ref
+                .read(homeViewModelProvider.notifier)
+                .setEvent(OnChangeQuery(query)),
+            decoration: const InputDecoration(
+              labelText: '검색어를 입력하세요',
+              labelStyle: TextStyle(color: Colors.blueAccent),
+              border: OutlineInputBorder(),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blue, width: 2),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueAccent, width: 2),
+              ),
+            ),
+            controller: TextEditingController(text: query)
+              ..selection = TextSelection.fromPosition(
+                TextPosition(offset: query.length),
+              ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
