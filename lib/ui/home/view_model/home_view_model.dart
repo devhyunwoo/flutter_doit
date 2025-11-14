@@ -48,6 +48,12 @@ class HomeViewModel extends AsyncNotifier<HomeState> {
   Future<void> _removeTodo(TodoModel todo) async {
     final repository = await ref.read(dbRepositoryProvider.future);
     await repository.deleteTodo(todo);
+    final removedState = state.value?.items
+        .where((item) => item.id != todo.id)
+        .toList();
+    if (removedState != null) {
+      state = AsyncValue.data(HomeState(items: removedState));
+    }
   }
 
   Future<void> setEvent(HomeEvent event) async {

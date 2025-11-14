@@ -54,13 +54,15 @@ class HomeBottomSheet extends ConsumerWidget {
             side: BorderSide(color: Colors.blue, width: 2),
           ),
         ),
-        child: Text('${dateTime.year}/${dateTime.month}/${dateTime.day} ${dateTime.hour}시 ${dateTime.minute}분',style: TextStyle(fontSize: 18),),
+        child: Text(
+          '${dateTime.year}/${dateTime.month}/${dateTime.day} ${dateTime.hour}시 ${dateTime.minute}분',
+          style: TextStyle(fontSize: 18),
+        ),
       ),
     );
   }
 
   Widget _contentItem(WidgetRef ref) {
-    final content = ref.watch(bottomSheetProvider).content;
     return TextField(
       decoration: const InputDecoration(
         labelText: '내용을 입력하세요',
@@ -73,10 +75,6 @@ class HomeBottomSheet extends ConsumerWidget {
           borderSide: BorderSide(color: Colors.blueAccent, width: 2),
         ),
       ),
-      controller: TextEditingController(text: content)
-        ..selection = TextSelection.fromPosition(
-          TextPosition(offset: content.length),
-        ),
       onChanged: ref.read(bottomSheetProvider.notifier).setContent,
       minLines: 5,
       maxLines: null,
@@ -107,31 +105,35 @@ class HomeBottomSheet extends ConsumerWidget {
   Future<DateTime?> _showRollingDateTimePicker(BuildContext context) {
     return showModalBottomSheet<DateTime>(
       context: context,
+      isScrollControlled: true,
       builder: (_) {
         DateTime temp = DateTime.now();
 
-        return SizedBox(
-          height: 300,
-          child: Column(
-            children: [
-              Expanded(
-                child: CupertinoDatePicker(
-                  mode: CupertinoDatePickerMode.dateAndTime,
-                  use24hFormat: true,
-                  initialDateTime: DateTime.now(),
-                  onDateTimeChanged: (value) => {temp = value},
+        return SafeArea(
+          child: SizedBox(
+            height: 300,
+            child: Column(
+              children: [
+                Expanded(
+                  child: CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.dateAndTime,
+                    use24hFormat: true,
+                    initialDateTime: DateTime.now(),
+                    onDateTimeChanged: (value) => {temp = value},
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: TextButton(
-                  onPressed: () {
-                    context.pop(temp);
-                  },
-                  child: Text('확인', style: TextStyle(fontSize: 18)),
+                Container(
+                  padding: EdgeInsets.only(bottom: 10),
+                  width: double.infinity,
+                  child: TextButton(
+                    onPressed: () {
+                      context.pop(temp);
+                    },
+                    child: Text('확인', style: TextStyle(fontSize: 18, color: Colors.blueAccent)),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
