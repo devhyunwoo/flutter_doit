@@ -47,7 +47,7 @@ class _HomeState extends ConsumerState<HomeState> {
                   padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom,
                   ),
-                  child: _homeDialog(ref),
+                  child: Dialog(child: _homeDialog(ref)),
                 );
               },
             );
@@ -57,35 +57,54 @@ class _HomeState extends ConsumerState<HomeState> {
   }
 
   Widget _homeDialog(WidgetRef ref) {
-    final query = ref.watch(homeViewModelProvider).value?.query ?? '';
-    return Container(
-      width: double.infinity,
-      height: 50,
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          TextField(
-            onChanged: (query) => ref
-                .read(homeViewModelProvider.notifier)
-                .setEvent(OnChangeQuery(query)),
-            decoration: const InputDecoration(
-              labelText: '검색어를 입력하세요',
-              labelStyle: TextStyle(color: Colors.blueAccent),
-              border: OutlineInputBorder(),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue, width: 2),
+    return Consumer(
+      builder: (context, ref, child) {
+        final images = ref.watch(imageProvider);
+        return Container(
+          width: double.infinity,
+          height: 500,
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              TextField(
+                onChanged: (query) =>
+                    ref.read(imageProvider.notifier).onChangeQuery(query),
+                decoration: const InputDecoration(
+                  labelText: '검색어를 입력하세요',
+                  labelStyle: TextStyle(color: Colors.blueAccent),
+                  border: OutlineInputBorder(),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue, width: 2),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blueAccent, width: 2),
+                  ),
+                ),
               ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blueAccent, width: 2),
+              Expanded(
+                child: GridView.builder(
+                  padding: EdgeInsets.all(8),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 4,
+                    childAspectRatio: 1,
+                  ),
+                  itemCount: images.length,
+                  itemBuilder: (context, index) {
+                    return Image.network(
+                      width: 30,
+                      height: 30,
+                      images[index],
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ),
               ),
-            ),
-            controller: TextEditingController(text: query)
-              ..selection = TextSelection.fromPosition(
-                TextPosition(offset: query.length),
-              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 

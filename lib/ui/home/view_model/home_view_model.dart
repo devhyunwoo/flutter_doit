@@ -18,7 +18,10 @@ class HomeViewModel extends AsyncNotifier<HomeState> {
     ref.onDispose(() {
       _effectController.close();
     });
-    return HomeState(items: <TodoModel>[]);
+
+    final repository = await ref.read(dbRepositoryProvider.future);
+    final todos = await repository.getTodos();
+    return HomeState(items: todos);
   }
 
   Future<void> _fetchDataFromDB() async {
@@ -62,12 +65,6 @@ class HomeViewModel extends AsyncNotifier<HomeState> {
         }
       case OnClickImage():
         _effectController.add(ShowDialog());
-      case OnChangeQuery():
-        state = AsyncValue.data(
-          (state.value ?? HomeState(items: <TodoModel>[])).copyWith(
-            query: event.query,
-          ),
-        );
     }
   }
 }

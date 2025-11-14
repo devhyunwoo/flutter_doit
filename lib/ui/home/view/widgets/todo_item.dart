@@ -18,8 +18,8 @@ class TodoItem extends ConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ElevatedButton(
-            onPressed: () {
+          GestureDetector(
+            onTap: () {
               ref.read(homeViewModelProvider.notifier).setEvent(OnClickImage());
             },
             child: todoModel.imageUrl.isEmpty
@@ -51,7 +51,7 @@ class TodoItem extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  todoModel.dateTime.toIso8601String(),
+                  todoModel.content,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -59,7 +59,7 @@ class TodoItem extends ConsumerWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  todoModel.content,
+                  '${todoModel.dateTime.hour}시 ${todoModel.dateTime.minute}분',
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,

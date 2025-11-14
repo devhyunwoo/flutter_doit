@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -37,36 +38,24 @@ class HomeBottomSheet extends ConsumerWidget {
 
   Widget _dateTimeItem(BuildContext context, WidgetRef ref) {
     final dateTime = ref.watch(bottomSheetProvider).dateTime;
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          '현재 선택된 날짜 : ${dateTime.year} - ${dateTime.month} - ${dateTime.day}',
-        ),
-        SizedBox(width: 20),
-        ElevatedButton(
-          onPressed: () async {
-            final picker = await showDatePicker(
-              context: context,
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2100),
-            );
-            if (picker != null) {
-              ref.read(bottomSheetProvider.notifier).setDateTime(picker);
-            }
-          },
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.blueAccent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: BorderSide(color: Colors.blue, width: 2),
-            ),
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () async {
+          final picker = await _showRollingDateTimePicker(context);
+          if (picker != null) {
+            ref.read(bottomSheetProvider.notifier).setDateTime(picker);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.blueAccent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(color: Colors.blue, width: 2),
           ),
-          child: const Text('날짜를 변경하세요'),
         ),
-      ],
+        child: Text('${dateTime.year}/${dateTime.month}/${dateTime.day} ${dateTime.hour}시 ${dateTime.minute}분',style: TextStyle(fontSize: 18),),
+      ),
     );
   }
 
@@ -112,6 +101,40 @@ class HomeBottomSheet extends ConsumerWidget {
         ),
         child: Text('일정 추가하기'),
       ),
+    );
+  }
+
+  Future<DateTime?> _showRollingDateTimePicker(BuildContext context) {
+    return showModalBottomSheet<DateTime>(
+      context: context,
+      builder: (_) {
+        DateTime temp = DateTime.now();
+
+        return SizedBox(
+          height: 300,
+          child: Column(
+            children: [
+              Expanded(
+                child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.dateAndTime,
+                  use24hFormat: true,
+                  initialDateTime: DateTime.now(),
+                  onDateTimeChanged: (value) => {temp = value},
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: TextButton(
+                  onPressed: () {
+                    context.pop(temp);
+                  },
+                  child: Text('확인', style: TextStyle(fontSize: 18)),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -17,7 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$HomeState {
-  String get query => throw _privateConstructorUsedError;
   List<TodoModel> get items => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
@@ -32,7 +31,7 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({String query, List<TodoModel> items});
+  $Res call({List<TodoModel> items});
 }
 
 /// @nodoc
@@ -49,13 +48,9 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? query = null, Object? items = null}) {
+  $Res call({Object? items = null}) {
     return _then(
       _value.copyWith(
-            query: null == query
-                ? _value.query
-                : query // ignore: cast_nullable_to_non_nullable
-                      as String,
             items: null == items
                 ? _value.items
                 : items // ignore: cast_nullable_to_non_nullable
@@ -75,7 +70,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   ) = __$$HomeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String query, List<TodoModel> items});
+  $Res call({List<TodoModel> items});
 }
 
 /// @nodoc
@@ -91,13 +86,9 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? query = null, Object? items = null}) {
+  $Res call({Object? items = null}) {
     return _then(
       _$HomeStateImpl(
-        query: null == query
-            ? _value.query
-            : query // ignore: cast_nullable_to_non_nullable
-                  as String,
         items: null == items
             ? _value._items
             : items // ignore: cast_nullable_to_non_nullable
@@ -110,12 +101,9 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$HomeStateImpl implements _HomeState {
-  const _$HomeStateImpl({this.query = '', required final List<TodoModel> items})
+  const _$HomeStateImpl({required final List<TodoModel> items})
     : _items = items;
 
-  @override
-  @JsonKey()
-  final String query;
   final List<TodoModel> _items;
   @override
   List<TodoModel> get items {
@@ -126,7 +114,7 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(query: $query, items: $items)';
+    return 'HomeState(items: $items)';
   }
 
   @override
@@ -134,16 +122,12 @@ class _$HomeStateImpl implements _HomeState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HomeStateImpl &&
-            (identical(other.query, query) || other.query == query) &&
             const DeepCollectionEquality().equals(other._items, _items));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    query,
-    const DeepCollectionEquality().hash(_items),
-  );
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_items));
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -155,13 +139,9 @@ class _$HomeStateImpl implements _HomeState {
 }
 
 abstract class _HomeState implements HomeState {
-  const factory _HomeState({
-    final String query,
-    required final List<TodoModel> items,
-  }) = _$HomeStateImpl;
+  const factory _HomeState({required final List<TodoModel> items}) =
+      _$HomeStateImpl;
 
-  @override
-  String get query;
   @override
   List<TodoModel> get items;
 
