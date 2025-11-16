@@ -12,5 +12,15 @@ class RemoveTodo extends HomeEvent {
   RemoveTodo(this.todo);
 }
 
-class OnClickImage extends HomeEvent {}
+class OnClickImage extends HomeEvent {
+  final TodoModel todo;
 
+  OnClickImage(this.todo);
+}
+
+class UpdateTodo extends HomeEvent {
+  final TodoModel todo;
+  final String imageUrl;
+
+  UpdateTodo(this.todo, this.imageUrl);
+}

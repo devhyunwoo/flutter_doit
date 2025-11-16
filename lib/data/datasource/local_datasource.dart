@@ -21,4 +21,14 @@ class LocalDatasource {
   Future<void> deleteTodo(TodoModel todo) async {
     await db.delete(tableName, where: 'id = ?', whereArgs: [todo.id]);
   }
+
+  Future<void> updateTodo(TodoModel todo) async {
+    final todoInMap = todo.toJson();
+    await db.update(
+      tableName,
+      todoInMap,
+      where: 'id = ?',
+      whereArgs: [todo.id],
+    );
+  }
 }

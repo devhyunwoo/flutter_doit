@@ -4,6 +4,7 @@ import 'package:doit_app/ui/home/view/widgets/bottom_sheet/bottom_sheet.dart';
 import 'package:doit_app/ui/home/view/widgets/home_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../di/di.dart';
 
@@ -18,7 +19,7 @@ class _HomeState extends ConsumerState<HomeState> {
   @override
   void initState() {
     super.initState();
-    ref.read(homeViewModelProvider.notifier).effect.listen((effect) {
+    ref.read(homeViewModelProvider.notifier).effect.listen((effect) async {
       switch (effect) {
         case ShowBottomSheet():
           {
@@ -40,23 +41,27 @@ class _HomeState extends ConsumerState<HomeState> {
 
         case ShowDialog():
           {
-            showDialog(
+            final result = await showDialog<String>(
               context: context,
               builder: (_) {
                 return Padding(
                   padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom,
                   ),
-                  child: Dialog(child: _homeDialog(ref)),
+                  child: Dialog(child: _homeDialog(context, ref)),
                 );
               },
             );
+
+            if (result != null) {
+              ref.read(homeViewModelProvider.notifier).setEvent(UpdateTodo(effect.todo, result));
+            }
           }
       }
     });
   }
 
-  Widget _homeDialog(WidgetRef ref) {
+  Widget _homeDialog(BuildContext context, WidgetRef ref) {
     return Consumer(
       builder: (context, ref, child) {
         final images = ref.watch(imageProvider);
@@ -92,11 +97,15 @@ class _HomeState extends ConsumerState<HomeState> {
                   ),
                   itemCount: images.length,
                   itemBuilder: (context, index) {
-                    return Image.network(
-                      width: 30,
-                      height: 30,
-                      images[index],
-                      fit: BoxFit.cover,
+                    final image = images[index];
+                    return GestureDetector(
+                      onTap: () => context.pop(image),
+                      child: Image.network(
+                        width: 30,
+                        height: 30,
+                        image,
+                        fit: BoxFit.cover,
+                      ),
                     );
                   },
                 ),

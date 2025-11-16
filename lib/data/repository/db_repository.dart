@@ -6,4 +6,6 @@ abstract class DBRepository {
   Future<void> insertTodo(TodoModel todo);
 
   Future<void> deleteTodo(TodoModel todo);
+
+  Future<void> updateTodo(TodoModel todo);
 }

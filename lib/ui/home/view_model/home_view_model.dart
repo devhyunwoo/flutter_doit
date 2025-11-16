@@ -70,7 +70,16 @@ class HomeViewModel extends AsyncNotifier<HomeState> {
           await _removeTodo(event.todo);
         }
       case OnClickImage():
-        _effectController.add(ShowDialog());
+        _effectController.add(ShowDialog(event.todo));
+      case UpdateTodo():
+        {
+          final repository = await ref.read(dbRepositoryProvider.future);
+          await repository.updateTodo(
+            event.todo.copyWith(imageUrl: event.imageUrl),
+          );
+          state = const AsyncLoading();
+          await _fetchDataFromDB();
+        }
     }
   }
 }

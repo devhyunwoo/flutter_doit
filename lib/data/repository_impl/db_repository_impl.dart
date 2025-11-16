@@ -21,4 +21,9 @@ class DBRepositoryImpl extends DBRepository {
   Future<void> deleteTodo(TodoModel todo) async {
     await localDatasource.deleteTodo(todo);
   }
+
+  @override
+  Future<void> updateTodo(TodoModel todo) async {
+    await localDatasource.updateTodo(todo);
+  }
 }

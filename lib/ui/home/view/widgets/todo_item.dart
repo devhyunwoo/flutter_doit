@@ -20,7 +20,9 @@ class TodoItem extends ConsumerWidget {
         children: [
           GestureDetector(
             onTap: () {
-              ref.read(homeViewModelProvider.notifier).setEvent(OnClickImage());
+              ref
+                  .read(homeViewModelProvider.notifier)
+                  .setEvent(OnClickImage(todoModel));
             },
             child: todoModel.imageUrl.isEmpty
                 ? Container(
