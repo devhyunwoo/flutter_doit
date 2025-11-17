@@ -8,14 +8,14 @@ import 'package:go_router/go_router.dart';
 
 import '../../di/di.dart';
 
-class HomeState extends ConsumerStatefulWidget {
-  const HomeState({super.key});
+class HomeView extends ConsumerStatefulWidget {
+  const HomeView({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _HomeState();
 }
 
-class _HomeState extends ConsumerState<HomeState> {
+class _HomeState extends ConsumerState<HomeView> {
   @override
   void initState() {
     super.initState();
@@ -69,6 +69,7 @@ class _HomeState extends ConsumerState<HomeState> {
           width: double.infinity,
           height: 500,
           padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(color: Colors.white),
           child: Column(
             children: [
               TextField(

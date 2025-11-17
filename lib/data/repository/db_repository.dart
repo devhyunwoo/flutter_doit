@@ -8,4 +8,6 @@ abstract class DBRepository {
   Future<void> deleteTodo(TodoModel todo);
 
   Future<void> updateTodo(TodoModel todo);
+
+  Future<void> carryOverTodos();
 }

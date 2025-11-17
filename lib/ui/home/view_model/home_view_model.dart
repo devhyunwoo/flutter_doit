@@ -30,19 +30,11 @@ class HomeViewModel extends AsyncNotifier<HomeState> {
     state = AsyncValue.data(HomeState(items: todos));
   }
 
-  void toggleDoneButton(TodoModel todo) {
-    final currentList = state.value;
-
-    if (currentList != null) {
-      final updatedList = currentList.items
-          .map(
-            (item) => item.id == todo.id
-                ? item.copyWith(isDone: item.isDone == 0 ? 1 : 0)
-                : item,
-          )
-          .toList();
-      state = AsyncValue.data(HomeState(items: updatedList));
-    }
+  Future<void> toggleDoneButton(TodoModel todo) async {
+    final modifiedTodo = todo.copyWith(isDone: todo.isDone == 0 ? 1 : 0);
+    final repository = await ref.read(dbRepositoryProvider.future);
+    await repository.updateTodo(modifiedTodo);
+    await _fetchDataFromDB();
   }
 
   Future<void> _removeTodo(TodoModel todo) async {

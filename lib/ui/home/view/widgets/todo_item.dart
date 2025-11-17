@@ -12,7 +12,14 @@ class TodoItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDone = todoModel.isDone == 1;
     return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.grey.shade300, width: 1),
+        ),
+        color: isDone ? Colors.grey.shade200 : Colors.white,
+      ),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       width: double.infinity,
       child: Row(
@@ -54,29 +61,38 @@ class TodoItem extends ConsumerWidget {
               children: [
                 Text(
                   todoModel.content,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
+                    decoration: isDone ? TextDecoration.lineThrough : null,
                   ),
                 ),
                 SizedBox(height: 10),
                 Text(
                   '${todoModel.dateTime.hour}시 ${todoModel.dateTime.minute}분',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
+                    decoration: isDone ? TextDecoration.lineThrough : null,
                   ),
                 ),
               ],
             ),
           ),
-          Checkbox(
-            value: todoModel.isDone == 0 ? false : true,
-            onChanged: (bool? value) {
+          ElevatedButton(
+            onPressed: () {
               ref
                   .read(homeViewModelProvider.notifier)
                   .toggleDoneButton(todoModel);
             },
+            child: Text(
+              isDone ? '취소' : '완료',
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.blueAccent,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
         ],
       ),

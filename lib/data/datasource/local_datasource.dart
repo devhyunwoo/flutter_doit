@@ -9,8 +9,43 @@ class LocalDatasource {
   static const tableName = 'todos';
 
   Future<List<TodoModel>> getTodos() async {
-    final todosInMap = await db.query(tableName);
+    final now = DateTime.now();
+    final todayStart = DateTime(now.year, now.month, now.day);
+    final todayEnd = todayStart.add(Duration(days: 1));
+    final todosInMap = await db.query(
+      tableName,
+      where: 'dateTime >= ? AND dateTime < ?',
+      whereArgs: [todayStart.toIso8601String(), todayEnd.toIso8601String()],
+      orderBy: 'dateTime ASC',
+    );
     return todosInMap.map(TodoModel.fromJson).toList();
+  }
+
+  Future<void> carryOverDodos() async {
+    final now = DateTime.now();
+    final todayStart = DateTime(now.year, now.month, now.day);
+    final overdueTodoInMap = await db.query(
+      tableName,
+      where: 'dateTime < ? AND isDone = ?',
+      whereArgs: [todayStart.toIso8601String(), 0],
+    );
+    final overdueTodos = overdueTodoInMap.map(TodoModel.fromJson).toList();
+    for (final todo in overdueTodos) {
+      final old = todo.dateTime;
+      final newTodo = todo.copyWith(
+        dateTime: DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+          old.hour,
+          old.minute,
+          old.second,
+          old.millisecond,
+          old.microsecond,
+        ),
+      );
+      await updateTodo(newTodo);
+    }
   }
 
   Future<void> insertTodo(TodoModel todo) async {

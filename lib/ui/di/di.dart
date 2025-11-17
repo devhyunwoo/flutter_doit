@@ -5,6 +5,7 @@ import 'package:doit_app/data/repository/db_repository.dart';
 import 'package:doit_app/data/repository_impl/api_repository_impl.dart';
 import 'package:doit_app/data/repository_impl/db_repository_impl.dart';
 import 'package:doit_app/ui/home/contract/notifier/image_notifier.dart';
+import 'package:doit_app/ui/splash/view_model/splash_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -60,4 +61,8 @@ final apiRepositoryProvider = Provider<ApiRepository>((ref) {
 
 final imageProvider = NotifierProvider.autoDispose<ImageNotifier, List<String>>(
   ImageNotifier.new,
+);
+
+final splashViewModelProvider = NotifierProvider<SplashViewModel, void>(
+  SplashViewModel.new,
 );

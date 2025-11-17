@@ -26,4 +26,9 @@ class DBRepositoryImpl extends DBRepository {
   Future<void> updateTodo(TodoModel todo) async {
     await localDatasource.updateTodo(todo);
   }
+
+  @override
+  Future<void> carryOverTodos() async {
+    await localDatasource.carryOverDodos();
+  }
 }
