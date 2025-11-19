@@ -4,6 +4,7 @@ import 'package:doit_app/data/repository/api_repository.dart';
 import 'package:doit_app/data/repository/db_repository.dart';
 import 'package:doit_app/data/repository_impl/api_repository_impl.dart';
 import 'package:doit_app/data/repository_impl/db_repository_impl.dart';
+import 'package:doit_app/ui/bottom_nav/view_model/bottom_nav_view_model.dart';
 import 'package:doit_app/ui/home/contract/notifier/image_notifier.dart';
 import 'package:doit_app/ui/splash/view_model/splash_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,4 +66,8 @@ final imageProvider = NotifierProvider.autoDispose<ImageNotifier, List<String>>(
 
 final splashViewModelProvider = NotifierProvider<SplashViewModel, void>(
   SplashViewModel.new,
+);
+
+final bottomNavViewModelProvider = NotifierProvider<BottomNavViewModel, int>(
+  BottomNavViewModel.new,
 );
