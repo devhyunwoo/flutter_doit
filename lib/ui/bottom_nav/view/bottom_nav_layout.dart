@@ -24,9 +24,9 @@ class _BottomNavLayoutState extends ConsumerState<BottomNavLayout> {
         case NavigateToPage():
           switch (effect.pageIndex) {
             case 0:
-              context.push('/home');
+              context.go('/home');
             case 1:
-              context.push('/month');
+              context.go('/month');
           }
       }
     });

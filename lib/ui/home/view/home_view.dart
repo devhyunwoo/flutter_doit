@@ -19,45 +19,51 @@ class _HomeState extends ConsumerState<HomeView> {
   @override
   void initState() {
     super.initState();
-    ref.read(homeViewModelProvider.notifier).effect.listen((effect) async {
-      switch (effect) {
-        case ShowBottomSheet():
-          {
-            showModalBottomSheet(
-              isScrollControlled: true,
-              context: context,
-              builder: (_) => SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom,
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(homeViewModelProvider.notifier).effect.listen((effect) async {
+        switch (effect) {
+          case ShowBottomSheet():
+            {
+              showModalBottomSheet(
+                isScrollControlled: true,
+                useRootNavigator: true,
+                context: context,
+                builder: (sheetContext) => SafeArea(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(sheetContext).viewInsets.bottom,
+                    ),
+                    child: HomeBottomSheet(),
                   ),
-                  child: HomeBottomSheet(),
                 ),
-              ),
-            ).whenComplete(() {
-              ref.read(homeViewModelProvider.notifier).setEvent(ReloadData());
-            });
-          }
-
-        case ShowDialog():
-          {
-            final result = await showDialog<String>(
-              context: context,
-              builder: (_) {
-                return Padding(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom,
-                  ),
-                  child: Dialog(child: _homeDialog(context, ref)),
-                );
-              },
-            );
-
-            if (result != null) {
-              ref.read(homeViewModelProvider.notifier).setEvent(UpdateTodo(effect.todo, result));
+              ).whenComplete(() {
+                ref.read(homeViewModelProvider.notifier).setEvent(ReloadData());
+              });
             }
-          }
-      }
+
+          case ShowDialog():
+            {
+              final result = await showDialog<String>(
+                context: context,
+                builder: (_) {
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom,
+                    ),
+                    child: Dialog(child: _homeDialog(context, ref)),
+                  );
+                },
+              );
+
+              if (result != null) {
+                ref
+                    .read(homeViewModelProvider.notifier)
+                    .setEvent(UpdateTodo(effect.todo, result));
+              }
+            }
+        }
+      });
     });
   }
 
@@ -69,7 +75,10 @@ class _HomeState extends ConsumerState<HomeView> {
           width: double.infinity,
           height: 500,
           padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: Column(
             children: [
               TextField(
