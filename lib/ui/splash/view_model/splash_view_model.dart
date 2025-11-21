@@ -14,13 +14,13 @@ class SplashViewModel extends Notifier<void> {
     ref.onDispose(() {
       _effectController.close();
     });
-    await _initializeApp();
+    await initializeApp();
   }
 
-  Future<void> _initializeApp() async {
+  Future<void> initializeApp() async {
     final repository = await ref.read(dbRepositoryProvider.future);
     await repository.carryOverTodos();
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     _effectController.add(NavigateToHome());
   }
 }

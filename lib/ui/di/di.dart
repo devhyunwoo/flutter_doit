@@ -6,6 +6,7 @@ import 'package:doit_app/data/repository_impl/api_repository_impl.dart';
 import 'package:doit_app/data/repository_impl/db_repository_impl.dart';
 import 'package:doit_app/ui/bottom_nav/view_model/bottom_nav_view_model.dart';
 import 'package:doit_app/ui/home/contract/notifier/image_notifier.dart';
+import 'package:doit_app/ui/month/contract/state/month_state.dart';
 import 'package:doit_app/ui/splash/view_model/splash_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
@@ -15,6 +16,7 @@ import '../home/contract/state/home_state.dart';
 import '../home/contract/state/todo.dart';
 import '../home/view/widgets/bottom_sheet/bottom_sheet_provider.dart';
 import '../home/view_model/home_view_model.dart';
+import '../month/view_model/month_view_model.dart';
 
 final homeViewModelProvider = AsyncNotifierProvider<HomeViewModel, HomeState>(
   HomeViewModel.new,
@@ -70,4 +72,8 @@ final splashViewModelProvider = NotifierProvider<SplashViewModel, void>(
 
 final bottomNavViewModelProvider = NotifierProvider<BottomNavViewModel, int>(
   BottomNavViewModel.new,
+);
+
+final monthViewModelProvider = AsyncNotifierProvider<MonthViewModel, MonthState>(
+  MonthViewModel.new,
 );

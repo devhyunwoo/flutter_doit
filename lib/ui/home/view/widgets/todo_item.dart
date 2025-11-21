@@ -86,7 +86,7 @@ class TodoItem extends ConsumerWidget {
                   .toggleDoneButton(todoModel);
             },
             child: Text(
-              isDone ? '취소' : '완료',
+              isDone ? '취소하기' : '완료하기',
               style: TextStyle(
                 fontSize: 15,
                 color: Colors.blueAccent,

@@ -134,12 +134,14 @@ class _HomeState extends ConsumerState<HomeView> {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
-        title: const Text(
-          '오늘 할일',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 13,
-            fontWeight: FontWeight.bold,
+        title: Center(
+          child: const Text(
+            '오늘 할일',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -148,7 +150,7 @@ class _HomeState extends ConsumerState<HomeView> {
         padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
         child: FloatingActionButton(
           onPressed: () => {viewModel.setEvent(OnClickAddTodo())},
-          child: Center(child: const Icon(Icons.plus_one)),
+          child: Center(child: const Icon(Icons.add)),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
