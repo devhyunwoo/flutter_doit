@@ -30,6 +30,10 @@ class HomeViewModel extends AsyncNotifier<HomeState> {
     state = AsyncValue.data(HomeState(items: todos));
   }
 
+  Future<void> reload() async {
+    await _fetchDataFromDB();
+  }
+
   Future<void> toggleDoneButton(TodoModel todo) async {
     final modifiedTodo = todo.copyWith(isDone: todo.isDone == 0 ? 1 : 0);
     final repository = await ref.read(dbRepositoryProvider.future);

@@ -38,6 +38,7 @@ class _DoItState extends ConsumerState<DoIt> {
     _listener = AppLifecycleListener(
       onResume: () {
         ref.read(splashViewModelProvider.notifier).initializeApp();
+        ref.read(homeViewModelProvider.notifier).reload();
       },
     );
   }
