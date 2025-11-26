@@ -66,4 +66,18 @@ class LocalDatasource {
       whereArgs: [todo.id],
     );
   }
+
+  Future<List<TodoModel>> getTodosByMonth(int year, int month) async {
+    final monthStart = DateTime(year, month, 1);
+    final monthEnd = (month < 12)
+        ? DateTime(year, month + 1, 1)
+        : DateTime(year + 1, 1, 1);
+    final todosInMap = await db.query(
+      tableName,
+      where: 'dateTime >= ? AND dateTime < ?',
+      whereArgs: [monthStart.toIso8601String(), monthEnd.toIso8601String()],
+      orderBy: 'dateTime ASC',
+    );
+    return todosInMap.map(TodoModel.fromJson).toList();
+  }
 }

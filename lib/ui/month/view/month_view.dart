@@ -1,5 +1,6 @@
 import 'package:doit_app/ui/di/di.dart';
 import 'package:doit_app/ui/month/contract/event/month_event.dart';
+import 'package:doit_app/ui/month/view/widget/month_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,7 +36,8 @@ class MonthView extends ConsumerWidget {
               ],
             ),
           ),
-          body: Center(child: Text('Month View')),
+          body: Container(
+              color : Colors.white, child: MonthContent()),
         );
       },
       error: (e, _) => Center(child: Text('데이터 로드 오류: ${e.toString()}')),

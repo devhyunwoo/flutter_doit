@@ -35,6 +35,7 @@ class HomeViewModel extends AsyncNotifier<HomeState> {
     final repository = await ref.read(dbRepositoryProvider.future);
     await repository.updateTodo(modifiedTodo);
     await _fetchDataFromDB();
+    await ref.read(monthViewModelProvider.notifier).reload();
   }
 
   Future<void> _removeTodo(TodoModel todo) async {
@@ -56,10 +57,12 @@ class HomeViewModel extends AsyncNotifier<HomeState> {
         {
           state = const AsyncLoading();
           await _fetchDataFromDB();
+          await ref.read(monthViewModelProvider.notifier).reload();
         }
       case RemoveTodo():
         {
           await _removeTodo(event.todo);
+          await ref.read(monthViewModelProvider.notifier).reload();
         }
       case OnClickImage():
         _effectController.add(ShowDialog(event.todo));
@@ -71,6 +74,7 @@ class HomeViewModel extends AsyncNotifier<HomeState> {
           );
           state = const AsyncLoading();
           await _fetchDataFromDB();
+          await ref.read(monthViewModelProvider.notifier).reload();
         }
     }
   }

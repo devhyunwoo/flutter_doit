@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MonthState {
-  List<TodoModel> get todos => throw _privateConstructorUsedError;
+  Map<DateTime, List<TodoModel>> get groupedTodos =>
+      throw _privateConstructorUsedError;
   int get selectedMonth => throw _privateConstructorUsedError;
 
   /// Create a copy of MonthState
@@ -34,7 +35,7 @@ abstract class $MonthStateCopyWith<$Res> {
     $Res Function(MonthState) then,
   ) = _$MonthStateCopyWithImpl<$Res, MonthState>;
   @useResult
-  $Res call({List<TodoModel> todos, int selectedMonth});
+  $Res call({Map<DateTime, List<TodoModel>> groupedTodos, int selectedMonth});
 }
 
 /// @nodoc
@@ -51,13 +52,13 @@ class _$MonthStateCopyWithImpl<$Res, $Val extends MonthState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? todos = null, Object? selectedMonth = null}) {
+  $Res call({Object? groupedTodos = null, Object? selectedMonth = null}) {
     return _then(
       _value.copyWith(
-            todos: null == todos
-                ? _value.todos
-                : todos // ignore: cast_nullable_to_non_nullable
-                      as List<TodoModel>,
+            groupedTodos: null == groupedTodos
+                ? _value.groupedTodos
+                : groupedTodos // ignore: cast_nullable_to_non_nullable
+                      as Map<DateTime, List<TodoModel>>,
             selectedMonth: null == selectedMonth
                 ? _value.selectedMonth
                 : selectedMonth // ignore: cast_nullable_to_non_nullable
@@ -77,7 +78,7 @@ abstract class _$$MonthStateImplCopyWith<$Res>
   ) = __$$MonthStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<TodoModel> todos, int selectedMonth});
+  $Res call({Map<DateTime, List<TodoModel>> groupedTodos, int selectedMonth});
 }
 
 /// @nodoc
@@ -93,13 +94,13 @@ class __$$MonthStateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? todos = null, Object? selectedMonth = null}) {
+  $Res call({Object? groupedTodos = null, Object? selectedMonth = null}) {
     return _then(
       _$MonthStateImpl(
-        todos: null == todos
-            ? _value._todos
-            : todos // ignore: cast_nullable_to_non_nullable
-                  as List<TodoModel>,
+        groupedTodos: null == groupedTodos
+            ? _value._groupedTodos
+            : groupedTodos // ignore: cast_nullable_to_non_nullable
+                  as Map<DateTime, List<TodoModel>>,
         selectedMonth: null == selectedMonth
             ? _value.selectedMonth
             : selectedMonth // ignore: cast_nullable_to_non_nullable
@@ -113,16 +114,16 @@ class __$$MonthStateImplCopyWithImpl<$Res>
 
 class _$MonthStateImpl implements _MonthState {
   const _$MonthStateImpl({
-    required final List<TodoModel> todos,
+    required final Map<DateTime, List<TodoModel>> groupedTodos,
     required this.selectedMonth,
-  }) : _todos = todos;
+  }) : _groupedTodos = groupedTodos;
 
-  final List<TodoModel> _todos;
+  final Map<DateTime, List<TodoModel>> _groupedTodos;
   @override
-  List<TodoModel> get todos {
-    if (_todos is EqualUnmodifiableListView) return _todos;
+  Map<DateTime, List<TodoModel>> get groupedTodos {
+    if (_groupedTodos is EqualUnmodifiableMapView) return _groupedTodos;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_todos);
+    return EqualUnmodifiableMapView(_groupedTodos);
   }
 
   @override
@@ -130,7 +131,7 @@ class _$MonthStateImpl implements _MonthState {
 
   @override
   String toString() {
-    return 'MonthState(todos: $todos, selectedMonth: $selectedMonth)';
+    return 'MonthState(groupedTodos: $groupedTodos, selectedMonth: $selectedMonth)';
   }
 
   @override
@@ -138,7 +139,10 @@ class _$MonthStateImpl implements _MonthState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MonthStateImpl &&
-            const DeepCollectionEquality().equals(other._todos, _todos) &&
+            const DeepCollectionEquality().equals(
+              other._groupedTodos,
+              _groupedTodos,
+            ) &&
             (identical(other.selectedMonth, selectedMonth) ||
                 other.selectedMonth == selectedMonth));
   }
@@ -146,7 +150,7 @@ class _$MonthStateImpl implements _MonthState {
   @override
   int get hashCode => Object.hash(
     runtimeType,
-    const DeepCollectionEquality().hash(_todos),
+    const DeepCollectionEquality().hash(_groupedTodos),
     selectedMonth,
   );
 
@@ -161,12 +165,12 @@ class _$MonthStateImpl implements _MonthState {
 
 abstract class _MonthState implements MonthState {
   const factory _MonthState({
-    required final List<TodoModel> todos,
+    required final Map<DateTime, List<TodoModel>> groupedTodos,
     required final int selectedMonth,
   }) = _$MonthStateImpl;
 
   @override
-  List<TodoModel> get todos;
+  Map<DateTime, List<TodoModel>> get groupedTodos;
   @override
   int get selectedMonth;
 

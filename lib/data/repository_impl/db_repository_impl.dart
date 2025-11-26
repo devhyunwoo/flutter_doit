@@ -31,4 +31,9 @@ class DBRepositoryImpl extends DBRepository {
   Future<void> carryOverTodos() async {
     await localDatasource.carryOverDodos();
   }
+
+  @override
+  Future<List<TodoModel>> getTodosByMonth(int year, int month) async {
+    return await localDatasource.getTodosByMonth(year, month);
+  }
 }

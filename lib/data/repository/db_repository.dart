@@ -10,4 +10,6 @@ abstract class DBRepository {
   Future<void> updateTodo(TodoModel todo);
 
   Future<void> carryOverTodos();
+
+  Future<List<TodoModel>> getTodosByMonth(int year, int month);
 }

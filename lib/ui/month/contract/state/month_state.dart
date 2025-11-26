@@ -6,7 +6,7 @@ part 'month_state.freezed.dart';
 @freezed
 class MonthState with _$MonthState {
   const factory MonthState({
-    required List<TodoModel> todos,
+    required Map<DateTime, List<TodoModel>> groupedTodos,
     required int selectedMonth,
   }) = _MonthState;
 }
