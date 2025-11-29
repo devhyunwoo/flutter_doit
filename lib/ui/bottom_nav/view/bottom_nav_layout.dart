@@ -1,6 +1,7 @@
 import 'package:doit_app/ui/bottom_nav/contract/effect/bottom_nav_effect.dart';
 import 'package:doit_app/ui/bottom_nav/contract/event/bottom_nav_event.dart';
 import 'package:doit_app/ui/di/di.dart';
+import 'package:doit_app/utils/color_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -38,6 +39,8 @@ class _BottomNavLayoutState extends ConsumerState<BottomNavLayout> {
     return Scaffold(
       body: widget.child,
       bottomNavigationBar: NavigationBar(
+        backgroundColor: AppColor.primaryColor.withAlpha(50),
+        indicatorColor: AppColor.primaryColor,
         destinations: [
           NavigationDestination(label: 'Home', icon: Icon(Icons.home)),
           NavigationDestination(

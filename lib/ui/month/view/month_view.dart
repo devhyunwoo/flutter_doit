@@ -1,6 +1,7 @@
 import 'package:doit_app/ui/di/di.dart';
 import 'package:doit_app/ui/month/contract/event/month_event.dart';
 import 'package:doit_app/ui/month/view/widget/month_content.dart';
+import 'package:doit_app/utils/color_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,7 +16,7 @@ class MonthView extends ConsumerWidget {
       data: (state) {
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.blueAccent,
+            backgroundColor: AppColor.primaryColor,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,

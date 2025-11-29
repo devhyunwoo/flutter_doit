@@ -1,5 +1,6 @@
 import 'package:doit_app/ui/di/di.dart';
 import 'package:doit_app/ui/home/contract/state/todo.dart';
+import 'package:doit_app/utils/color_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sticky_headers/sticky_headers.dart';
@@ -53,7 +54,7 @@ Widget _item(TodoModel todo) {
     decoration: BoxDecoration(
       color: Colors.white,
       border: Border.all(
-        color: isDone ? Colors.blueAccent : Colors.red,
+        color: isDone ? AppColor.primaryColor : Colors.red,
         width: 2,
       ),
       borderRadius: BorderRadius.circular(8),

@@ -1,3 +1,4 @@
+import 'package:doit_app/utils/color_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,10 +18,10 @@ class HomeBottomSheet extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            '일정과 내용을 추가하세요',
+            '일정을 추가하세요',
             style: TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w700,
               color: Colors.black,
             ),
           ),
@@ -48,10 +49,10 @@ class HomeBottomSheet extends ConsumerWidget {
           }
         },
         style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.blueAccent,
+          foregroundColor: Colors.black,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
-            side: BorderSide(color: Colors.blue, width: 2),
+            side: BorderSide(color: AppColor.primaryColor, width: 2),
           ),
         ),
         child: Text(
@@ -66,13 +67,13 @@ class HomeBottomSheet extends ConsumerWidget {
     return TextField(
       decoration: const InputDecoration(
         labelText: '내용을 입력하세요',
-        labelStyle: TextStyle(color: Colors.blueAccent),
+        labelStyle: TextStyle(color: Colors.black),
         border: OutlineInputBorder(),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 2),
+          borderSide: BorderSide(color: AppColor.primaryColor, width: 2),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blueAccent, width: 2),
+          borderSide: BorderSide(color: AppColor.primaryColor, width: 2),
         ),
       ),
       onChanged: ref.read(bottomSheetProvider.notifier).setContent,
@@ -91,10 +92,10 @@ class HomeBottomSheet extends ConsumerWidget {
         },
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.only(top: 20, bottom: 20),
-          foregroundColor: Colors.blueAccent,
+          foregroundColor:Colors.black,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
-            side: BorderSide(color: Colors.blue, width: 2),
+            side: BorderSide(color: AppColor.primaryColor, width: 2),
           ),
         ),
         child: Text('일정 추가하기'),
@@ -129,7 +130,7 @@ class HomeBottomSheet extends ConsumerWidget {
                     onPressed: () {
                       context.pop(temp);
                     },
-                    child: Text('확인', style: TextStyle(fontSize: 18, color: Colors.blueAccent)),
+                    child: Text('확인', style: TextStyle(fontSize: 18, color: Colors.black)),
                   ),
                 ),
               ],

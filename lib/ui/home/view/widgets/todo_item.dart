@@ -1,5 +1,6 @@
 import 'package:doit_app/ui/home/contract/event/home_event.dart';
 import 'package:doit_app/ui/home/contract/state/todo.dart';
+import 'package:doit_app/utils/color_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -69,7 +70,7 @@ class TodoItem extends ConsumerWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  '${todoModel.dateTime.hour}시 ${todoModel.dateTime.minute}분',
+                  '${todoModel.dateTime.hour.toString().padLeft(2, '0')}시 ${todoModel.dateTime.minute.toString().padLeft(2, '0')}분',
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
@@ -80,6 +81,7 @@ class TodoItem extends ConsumerWidget {
             ),
           ),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppColor.primaryColor),
             onPressed: () {
               ref
                   .read(homeViewModelProvider.notifier)
@@ -89,7 +91,7 @@ class TodoItem extends ConsumerWidget {
               isDone ? '취소하기' : '완료하기',
               style: TextStyle(
                 fontSize: 15,
-                color: Colors.blueAccent,
+                color: Colors.black,
                 fontWeight: FontWeight.w500,
               ),
             ),

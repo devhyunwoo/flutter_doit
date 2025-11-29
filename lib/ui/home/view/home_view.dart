@@ -2,6 +2,7 @@ import 'package:doit_app/ui/home/contract/effect/home_effect.dart';
 import 'package:doit_app/ui/home/contract/event/home_event.dart';
 import 'package:doit_app/ui/home/view/widgets/bottom_sheet/bottom_sheet.dart';
 import 'package:doit_app/ui/home/view/widgets/home_body.dart';
+import 'package:doit_app/utils/color_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -86,13 +87,13 @@ class _HomeState extends ConsumerState<HomeView> {
                     ref.read(imageProvider.notifier).onChangeQuery(query),
                 decoration: const InputDecoration(
                   labelText: '검색어를 입력하세요',
-                  labelStyle: TextStyle(color: Colors.blueAccent),
+                  labelStyle: TextStyle(color: Colors.black),
                   border: OutlineInputBorder(),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue, width: 2),
+                    borderSide: BorderSide(color: AppColor.primaryColor, width: 2),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blueAccent, width: 2),
+                    borderSide: BorderSide(color: AppColor.primaryColor, width: 2),
                   ),
                 ),
               ),
@@ -133,13 +134,13 @@ class _HomeState extends ConsumerState<HomeView> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: AppColor.primaryColor,
         title: Center(
           child: const Text(
-            '오늘 할일',
+            'Today Do It List',
             style: TextStyle(
               color: Colors.black,
-              fontSize: 13,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -149,6 +150,7 @@ class _HomeState extends ConsumerState<HomeView> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
         child: FloatingActionButton(
+          backgroundColor: AppColor.primaryColor,
           onPressed: () => {viewModel.setEvent(OnClickAddTodo())},
           child: Center(child: const Icon(Icons.add)),
         ),
