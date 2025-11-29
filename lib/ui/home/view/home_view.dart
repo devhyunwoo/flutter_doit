@@ -132,6 +132,7 @@ class _HomeState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     final viewModel = ref.read(homeViewModelProvider.notifier);
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: AppColor.primaryColor,

@@ -25,6 +25,6 @@ class _SplashViewState extends ConsumerState<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('오늘 하루를 기록하세요. Do It!', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),)));
+    return Scaffold(backgroundColor : Colors.white, body: Center(child: Text('오늘 하루를 기록하세요. Do It!', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),)));
   }
 }
