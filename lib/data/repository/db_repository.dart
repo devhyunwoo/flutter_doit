@@ -1,7 +1,7 @@
 import 'package:doit_app/ui/home/contract/state/todo.dart';
 
 abstract class DBRepository {
-  Future<List<TodoModel>> getTodos();
+  Future<List<TodoModel>> getTodos(DateTime date);
 
   Future<void> insertTodo(TodoModel todo);
 

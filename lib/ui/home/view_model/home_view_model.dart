@@ -18,16 +18,17 @@ class HomeViewModel extends AsyncNotifier<HomeState> {
     ref.onDispose(() {
       _effectController.close();
     });
-
+    final now = DateTime.now();
     final repository = await ref.read(dbRepositoryProvider.future);
-    final todos = await repository.getTodos();
-    return HomeState(items: todos);
+    final todos = await repository.getTodos(now);
+    return HomeState(selectedTime: now, items: todos);
   }
 
   Future<void> _fetchDataFromDB() async {
     final repository = await ref.read(dbRepositoryProvider.future);
-    final todos = await repository.getTodos();
-    state = AsyncValue.data(HomeState(items: todos));
+    final selectedTime = state.value?.selectedTime ?? DateTime.now();
+    final todos = await repository.getTodos(selectedTime);
+    state = AsyncValue.data(state.value!.copyWith(items: todos));
   }
 
   Future<void> reload() async {
@@ -49,7 +50,7 @@ class HomeViewModel extends AsyncNotifier<HomeState> {
         .where((item) => item.id != todo.id)
         .toList();
     if (removedState != null) {
-      state = AsyncValue.data(HomeState(items: removedState));
+      state = AsyncValue.data(state.value!.copyWith(items: removedState));
     }
   }
 
@@ -80,6 +81,26 @@ class HomeViewModel extends AsyncNotifier<HomeState> {
           await _fetchDataFromDB();
           await ref.read(monthViewModelProvider.notifier).reload();
         }
+      case OnClickPrevDay():
+        {
+          state = const AsyncLoading();
+          final currentDate = state.value?.selectedTime ?? DateTime.now();
+          final prevDate = currentDate.subtract(const Duration(days: 1));
+          final repository = await ref.read(dbRepositoryProvider.future);
+          final todos = await repository.getTodos(prevDate);
+          state = AsyncValue.data(
+            state.value!.copyWith(selectedTime: prevDate, items: todos),
+          );
+        }
+      case OnClickNextDay():
+        state = const AsyncLoading();
+        final currentDate = state.value?.selectedTime ?? DateTime.now();
+        final nextDay = currentDate.add(const Duration(days: 1));
+        final repository = await ref.read(dbRepositoryProvider.future);
+        final todos = await repository.getTodos(nextDay);
+        state = AsyncValue.data(
+          state.value!.copyWith(selectedTime: nextDay, items: todos),
+        );
     }
   }
 }

@@ -8,9 +8,8 @@ class LocalDatasource {
 
   static const tableName = 'todos';
 
-  Future<List<TodoModel>> getTodos() async {
-    final now = DateTime.now();
-    final todayStart = DateTime(now.year, now.month, now.day);
+  Future<List<TodoModel>> getTodos(DateTime date) async {
+    final todayStart = DateTime(date.year, date.month, date.day);
     final todayEnd = todayStart.add(Duration(days: 1));
     final todosInMap = await db.query(
       tableName,

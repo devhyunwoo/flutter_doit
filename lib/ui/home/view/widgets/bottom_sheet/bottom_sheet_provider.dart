@@ -5,7 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class BottomSheetNotifier extends AutoDisposeNotifier<TodoModel> {
   @override
   TodoModel build() {
-    return TodoModel(id: 0, content: '', dateTime: DateTime.now());
+    final selectedDate = ref.watch(homeViewModelProvider).value?.selectedTime ?? DateTime.now();
+    return TodoModel(id: 0, content: '', dateTime: selectedDate);
   }
 
   void setDateTime(DateTime dateTime) {

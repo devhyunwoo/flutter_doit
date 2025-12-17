@@ -3,6 +3,7 @@ import 'package:doit_app/ui/home/contract/event/home_event.dart';
 import 'package:doit_app/ui/home/view/widgets/bottom_sheet/bottom_sheet.dart';
 import 'package:doit_app/ui/home/view/widgets/home_body.dart';
 import 'package:doit_app/utils/color_util.dart';
+import 'package:doit_app/utils/day_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -90,10 +91,16 @@ class _HomeState extends ConsumerState<HomeView> {
                   labelStyle: TextStyle(color: Colors.black),
                   border: OutlineInputBorder(),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColor.primaryColor, width: 2),
+                    borderSide: BorderSide(
+                      color: AppColor.primaryColor,
+                      width: 2,
+                    ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColor.primaryColor, width: 2),
+                    borderSide: BorderSide(
+                      color: AppColor.primaryColor,
+                      width: 2,
+                    ),
                   ),
                 ),
               ),
@@ -131,20 +138,48 @@ class _HomeState extends ConsumerState<HomeView> {
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.read(homeViewModelProvider.notifier);
+    final selectedDay =
+        ref.watch(homeViewModelProvider).value?.selectedTime ?? DateTime.now();
+    final showPrevButton = selectedDay.day > DateTime.now().day;
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: AppColor.primaryColor,
-        title: Center(
-          child: const Text(
-            'Today Do It List',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+        title: Stack(
+          alignment: Alignment.center,
+          children: [
+            if (showPrevButton)
+              Align(
+                alignment: Alignment.centerLeft,
+                child: GestureDetector(
+                  onTap: () => viewModel.setEvent(OnClickPrevDay()),
+                  child: Icon(
+                    Icons.chevron_left,
+                    size: 40,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                "${selectedDay.month}월 ${selectedDay.day.toString()}일 ${selectedDay.weekday.getWeekName}",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-          ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                onTap: () => viewModel.setEvent(OnClickNextDay()),
+                child: Icon(Icons.chevron_right, size: 40, color: Colors.black),
+              ),
+            ),
+          ],
         ),
       ),
       body: HomeBody(),

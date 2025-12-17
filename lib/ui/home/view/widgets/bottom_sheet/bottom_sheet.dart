@@ -39,11 +39,12 @@ class HomeBottomSheet extends ConsumerWidget {
 
   Widget _dateTimeItem(BuildContext context, WidgetRef ref) {
     final dateTime = ref.watch(bottomSheetProvider).dateTime;
+
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () async {
-          final picker = await _showRollingDateTimePicker(context);
+          final picker = await _showRollingDateTimePicker(context, dateTime);
           if (picker != null) {
             ref.read(bottomSheetProvider.notifier).setDateTime(picker);
           }
@@ -92,7 +93,7 @@ class HomeBottomSheet extends ConsumerWidget {
         },
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.only(top: 20, bottom: 20),
-          foregroundColor:Colors.black,
+          foregroundColor: Colors.black,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
             side: BorderSide(color: AppColor.primaryColor, width: 2),
@@ -103,7 +104,10 @@ class HomeBottomSheet extends ConsumerWidget {
     );
   }
 
-  Future<DateTime?> _showRollingDateTimePicker(BuildContext context) {
+  Future<DateTime?> _showRollingDateTimePicker(
+    BuildContext context,
+    DateTime selectedDate,
+  ) {
     return showModalBottomSheet<DateTime>(
       context: context,
       isScrollControlled: true,
@@ -119,7 +123,7 @@ class HomeBottomSheet extends ConsumerWidget {
                   child: CupertinoDatePicker(
                     mode: CupertinoDatePickerMode.dateAndTime,
                     use24hFormat: true,
-                    initialDateTime: DateTime.now(),
+                    initialDateTime: selectedDate,
                     onDateTimeChanged: (value) => {temp = value},
                   ),
                 ),
@@ -130,7 +134,10 @@ class HomeBottomSheet extends ConsumerWidget {
                     onPressed: () {
                       context.pop(temp);
                     },
-                    child: Text('확인', style: TextStyle(fontSize: 18, color: Colors.black)),
+                    child: Text(
+                      '확인',
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    ),
                   ),
                 ),
               ],

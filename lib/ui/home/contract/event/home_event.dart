@@ -24,3 +24,7 @@ class UpdateTodo extends HomeEvent {
 
   UpdateTodo(this.todo, this.imageUrl);
 }
+
+class OnClickNextDay extends HomeEvent {}
+
+class OnClickPrevDay extends HomeEvent {}

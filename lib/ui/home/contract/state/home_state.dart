@@ -5,5 +5,8 @@ part 'home_state.freezed.dart';
 
 @freezed
 class HomeState with _$HomeState {
-  const factory HomeState({required List<TodoModel> items}) = _HomeState;
+  const factory HomeState({
+    required DateTime selectedTime,
+    required List<TodoModel> items,
+  }) = _HomeState;
 }

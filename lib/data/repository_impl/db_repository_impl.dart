@@ -8,8 +8,8 @@ class DBRepositoryImpl extends DBRepository {
   DBRepositoryImpl(this.localDatasource);
 
   @override
-  Future<List<TodoModel>> getTodos() async {
-    return await localDatasource.getTodos();
+  Future<List<TodoModel>> getTodos(DateTime date) async {
+    return await localDatasource.getTodos(date);
   }
 
   @override
