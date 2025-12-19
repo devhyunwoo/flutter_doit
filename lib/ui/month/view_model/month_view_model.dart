@@ -24,7 +24,8 @@ class MonthViewModel extends AsyncNotifier<MonthState> {
   }
 
   Future<void> reload() async {
-    final selectedMonth = state.value?.selectedDate.month ?? DateTime.now().month;
+    final selectedMonth =
+        state.value?.selectedDate.month ?? DateTime.now().month;
     final groupedTodos = await fetchTodosByMonth(
       DateTime.now().year,
       selectedMonth,
@@ -36,46 +37,38 @@ class MonthViewModel extends AsyncNotifier<MonthState> {
     switch (event) {
       case OnClickPreviousMonth():
         {
-          final currentDate =
-              state.value?.selectedDate ?? DateTime.now();
-          final previousDate =  DateTime(
+          final currentDate = state.value?.selectedDate ?? DateTime.now();
+          final previousDate = DateTime(
             currentDate.year,
             currentDate.month - 1,
             currentDate.day,
           );
-          state = AsyncValue.data(
-            state.value!.copyWith(selectedDate: previousDate),
-          );
-          final groupedTodos = await fetchTodosByMonth(
-            DateTime.now().year,
-            previousDate.month,
-          );
-          state = AsyncValue.data(
-            state.value!.copyWith(groupedTodos: groupedTodos),
-          );
+          updateCalendar(previousDate);
         }
 
       case OnClickNextMonth():
         {
-          final currentDate =
-              state.value?.selectedDate ?? DateTime.now();
-          final nextDate =  DateTime(
+          final currentDate = state.value?.selectedDate ?? DateTime.now();
+          final nextDate = DateTime(
             currentDate.year,
             currentDate.month + 1,
             currentDate.day,
           );
-          state = AsyncValue.data(
-            state.value!.copyWith(selectedDate: nextDate),
-          );
-          final groupedTodos = await fetchTodosByMonth(
-            DateTime.now().year,
-            nextDate.month,
-          );
-          state = AsyncValue.data(
-            state.value!.copyWith(groupedTodos: groupedTodos),
-          );
+          updateCalendar(nextDate);
+        }
+      case OnSelectedDate():
+        {
+          updateCalendar(event.selectedDate);
         }
     }
+  }
+
+  Future<void> updateCalendar(DateTime selectedDate) async {
+    final db = await ref.read(dbRepositoryProvider.future);
+    final todos = await db.getTodos(selectedDate);
+    state = AsyncValue.data(
+      state.value!.copyWith(groupedTodos: groupByDate(todos), selectedDate: selectedDate),
+    );
   }
 
   Map<DateTime, List<TodoModel>> groupByDate(List<TodoModel> todos) {
