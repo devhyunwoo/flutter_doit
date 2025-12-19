@@ -140,7 +140,7 @@ class _HomeState extends ConsumerState<HomeView> {
     final viewModel = ref.read(homeViewModelProvider.notifier);
     final selectedDay =
         ref.watch(homeViewModelProvider).value?.selectedTime ?? DateTime.now();
-    final showPrevButton = selectedDay.day > DateTime.now().day;
+    final showPrevButton = selectedDay.millisecondsSinceEpoch > DateTime.now().millisecondsSinceEpoch;
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,

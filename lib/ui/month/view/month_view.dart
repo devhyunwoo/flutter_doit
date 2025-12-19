@@ -27,7 +27,7 @@ class MonthView extends ConsumerWidget {
                   child: Icon(Icons.chevron_left),
                 ),
                 Text(
-                  '${monthState.value?.selectedMonth}월',
+                  '${monthState.value?.selectedDate.year}년 ${monthState.value?.selectedDate.month}월',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
                 GestureDetector(

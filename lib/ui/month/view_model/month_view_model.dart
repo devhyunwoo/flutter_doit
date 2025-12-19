@@ -11,7 +11,7 @@ class MonthViewModel extends AsyncNotifier<MonthState> {
   FutureOr<MonthState> build() async {
     final now = DateTime.now();
     final groupedTodos = await fetchTodosByMonth(now.year, now.month);
-    return MonthState(groupedTodos: groupedTodos, selectedMonth: now.month);
+    return MonthState(groupedTodos: groupedTodos, selectedDate: now);
   }
 
   Future<Map<DateTime, List<TodoModel>>> fetchTodosByMonth(
@@ -24,7 +24,7 @@ class MonthViewModel extends AsyncNotifier<MonthState> {
   }
 
   Future<void> reload() async {
-    final selectedMonth = state.value?.selectedMonth ?? DateTime.now().month;
+    final selectedMonth = state.value?.selectedDate.month ?? DateTime.now().month;
     final groupedTodos = await fetchTodosByMonth(
       DateTime.now().year,
       selectedMonth,
@@ -36,15 +36,19 @@ class MonthViewModel extends AsyncNotifier<MonthState> {
     switch (event) {
       case OnClickPreviousMonth():
         {
-          final currentMonth =
-              state.value?.selectedMonth ?? DateTime.now().month;
-          final previousMonth = currentMonth == 1 ? 12 : currentMonth - 1;
+          final currentDate =
+              state.value?.selectedDate ?? DateTime.now();
+          final previousDate =  DateTime(
+            currentDate.year,
+            currentDate.month - 1,
+            currentDate.day,
+          );
           state = AsyncValue.data(
-            state.value!.copyWith(selectedMonth: previousMonth),
+            state.value!.copyWith(selectedDate: previousDate),
           );
           final groupedTodos = await fetchTodosByMonth(
             DateTime.now().year,
-            previousMonth,
+            previousDate.month,
           );
           state = AsyncValue.data(
             state.value!.copyWith(groupedTodos: groupedTodos),
@@ -53,15 +57,19 @@ class MonthViewModel extends AsyncNotifier<MonthState> {
 
       case OnClickNextMonth():
         {
-          final currentMonth =
-              state.value?.selectedMonth ?? DateTime.now().month;
-          final nextMonth = currentMonth == 12 ? 1 : currentMonth + 1;
+          final currentDate =
+              state.value?.selectedDate ?? DateTime.now();
+          final nextDate =  DateTime(
+            currentDate.year,
+            currentDate.month + 1,
+            currentDate.day,
+          );
           state = AsyncValue.data(
-            state.value!.copyWith(selectedMonth: nextMonth),
+            state.value!.copyWith(selectedDate: nextDate),
           );
           final groupedTodos = await fetchTodosByMonth(
             DateTime.now().year,
-            nextMonth,
+            nextDate.month,
           );
           state = AsyncValue.data(
             state.value!.copyWith(groupedTodos: groupedTodos),
