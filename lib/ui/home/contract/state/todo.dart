@@ -11,6 +11,7 @@ class TodoModel with _$TodoModel {
     required String content,
     required DateTime dateTime,
     @Default(0) int isDone,
+    @Default(0) int isTBD,
   }) = _TodoModel;
 
   factory TodoModel.fromJson(Map<String, dynamic> json) => _$TodoModelFromJson(json);

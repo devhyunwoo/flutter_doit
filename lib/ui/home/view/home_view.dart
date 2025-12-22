@@ -36,7 +36,7 @@ class _HomeState extends ConsumerState<HomeView> {
                     padding: EdgeInsets.only(
                       bottom: MediaQuery.of(sheetContext).viewInsets.bottom,
                     ),
-                    child: HomeBottomSheet(),
+                    child: HomeBottomSheet(currentTodo: effect.todo),
                   ),
                 ),
               ).whenComplete(() {
@@ -140,7 +140,6 @@ class _HomeState extends ConsumerState<HomeView> {
     final viewModel = ref.read(homeViewModelProvider.notifier);
     final selectedDay =
         ref.watch(homeViewModelProvider).value?.selectedTime ?? DateTime.now();
-    final showPrevButton = selectedDay.millisecondsSinceEpoch > DateTime.now().millisecondsSinceEpoch;
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
@@ -149,18 +148,13 @@ class _HomeState extends ConsumerState<HomeView> {
         title: Stack(
           alignment: Alignment.center,
           children: [
-            if (showPrevButton)
-              Align(
-                alignment: Alignment.centerLeft,
-                child: GestureDetector(
-                  onTap: () => viewModel.setEvent(OnClickPrevDay()),
-                  child: Icon(
-                    Icons.chevron_left,
-                    size: 40,
-                    color: Colors.black,
-                  ),
-                ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                onTap: () => viewModel.setEvent(OnClickPrevDay()),
+                child: Icon(Icons.chevron_left, size: 40, color: Colors.black),
               ),
+            ),
             Align(
               alignment: Alignment.center,
               child: Text(
@@ -187,7 +181,7 @@ class _HomeState extends ConsumerState<HomeView> {
         padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
         child: FloatingActionButton(
           backgroundColor: AppColor.primaryColor,
-          onPressed: () => {viewModel.setEvent(OnClickAddTodo())},
+          onPressed: () => {viewModel.setEvent(OnClickAddTodo(null))},
           child: Center(child: const Icon(Icons.add)),
         ),
       ),

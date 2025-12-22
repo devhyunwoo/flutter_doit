@@ -2,7 +2,11 @@ import 'package:doit_app/ui/home/contract/state/todo.dart';
 
 sealed class HomeEvent {}
 
-class OnClickAddTodo extends HomeEvent {}
+class OnClickAddTodo extends HomeEvent {
+  final TodoModel? todo;
+
+  OnClickAddTodo(this.todo);
+}
 
 class ReloadData extends HomeEvent {}
 

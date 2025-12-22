@@ -26,6 +26,7 @@ mixin _$TodoModel {
   String get content => throw _privateConstructorUsedError;
   DateTime get dateTime => throw _privateConstructorUsedError;
   int get isDone => throw _privateConstructorUsedError;
+  int get isTBD => throw _privateConstructorUsedError;
 
   /// Serializes this TodoModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,6 +49,7 @@ abstract class $TodoModelCopyWith<$Res> {
     String content,
     DateTime dateTime,
     int isDone,
+    int isTBD,
   });
 }
 
@@ -71,6 +73,7 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
     Object? content = null,
     Object? dateTime = null,
     Object? isDone = null,
+    Object? isTBD = null,
   }) {
     return _then(
       _value.copyWith(
@@ -94,6 +97,10 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
                 ? _value.isDone
                 : isDone // ignore: cast_nullable_to_non_nullable
                       as int,
+            isTBD: null == isTBD
+                ? _value.isTBD
+                : isTBD // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -115,6 +122,7 @@ abstract class _$$TodoModelImplCopyWith<$Res>
     String content,
     DateTime dateTime,
     int isDone,
+    int isTBD,
   });
 }
 
@@ -137,6 +145,7 @@ class __$$TodoModelImplCopyWithImpl<$Res>
     Object? content = null,
     Object? dateTime = null,
     Object? isDone = null,
+    Object? isTBD = null,
   }) {
     return _then(
       _$TodoModelImpl(
@@ -160,6 +169,10 @@ class __$$TodoModelImplCopyWithImpl<$Res>
             ? _value.isDone
             : isDone // ignore: cast_nullable_to_non_nullable
                   as int,
+        isTBD: null == isTBD
+            ? _value.isTBD
+            : isTBD // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -174,6 +187,7 @@ class _$TodoModelImpl implements _TodoModel {
     required this.content,
     required this.dateTime,
     this.isDone = 0,
+    this.isTBD = 0,
   });
 
   factory _$TodoModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -191,10 +205,13 @@ class _$TodoModelImpl implements _TodoModel {
   @override
   @JsonKey()
   final int isDone;
+  @override
+  @JsonKey()
+  final int isTBD;
 
   @override
   String toString() {
-    return 'TodoModel(id: $id, imageUrl: $imageUrl, content: $content, dateTime: $dateTime, isDone: $isDone)';
+    return 'TodoModel(id: $id, imageUrl: $imageUrl, content: $content, dateTime: $dateTime, isDone: $isDone, isTBD: $isTBD)';
   }
 
   @override
@@ -208,13 +225,14 @@ class _$TodoModelImpl implements _TodoModel {
             (identical(other.content, content) || other.content == content) &&
             (identical(other.dateTime, dateTime) ||
                 other.dateTime == dateTime) &&
-            (identical(other.isDone, isDone) || other.isDone == isDone));
+            (identical(other.isDone, isDone) || other.isDone == isDone) &&
+            (identical(other.isTBD, isTBD) || other.isTBD == isTBD));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, imageUrl, content, dateTime, isDone);
+      Object.hash(runtimeType, id, imageUrl, content, dateTime, isDone, isTBD);
 
   /// Create a copy of TodoModel
   /// with the given fields replaced by the non-null parameter values.
@@ -237,6 +255,7 @@ abstract class _TodoModel implements TodoModel {
     required final String content,
     required final DateTime dateTime,
     final int isDone,
+    final int isTBD,
   }) = _$TodoModelImpl;
 
   factory _TodoModel.fromJson(Map<String, dynamic> json) =
@@ -252,6 +271,8 @@ abstract class _TodoModel implements TodoModel {
   DateTime get dateTime;
   @override
   int get isDone;
+  @override
+  int get isTBD;
 
   /// Create a copy of TodoModel
   /// with the given fields replaced by the non-null parameter values.

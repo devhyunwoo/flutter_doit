@@ -29,7 +29,8 @@ class DatabaseHelper {
             imageUrl TEXT,
             content TEXT NOT NULL,
             dateTime TEXT NOT NULL,
-            isDone INTEGER NOT NULL DEFAULT 0
+            isDone INTEGER NOT NULL DEFAULT 0,
+            isTBD INTEGER NOT NULL DEFAULT 0
           )
         ''');
       },

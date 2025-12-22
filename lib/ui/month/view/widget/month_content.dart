@@ -68,8 +68,8 @@ Widget _item(TodoModel todo) {
       children: [
         if (todo.imageUrl.isEmpty)
           Container(
-            width: 50,
-            height: 50,
+            width: 60,
+            height: 60,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black, width: 1),
               borderRadius: BorderRadius.circular(8),
@@ -77,7 +77,15 @@ Widget _item(TodoModel todo) {
             child: Icon(Icons.hourglass_empty, size: 25.0),
           )
         else
-          Image.network(todo.imageUrl, width: 50, height: 50),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.network(
+              todo.imageUrl,
+              width: 60,
+              height: 60,
+              fit: BoxFit.fill,
+            ),
+          ),
         SizedBox(width: 10),
         Expanded(
           child: Column(
@@ -94,7 +102,9 @@ Widget _item(TodoModel todo) {
               ),
               SizedBox(height: 10),
               Text(
-                '${todo.dateTime.hour}시 ${todo.dateTime.minute}분',
+                todo.isTBD == 1
+                    ? '날짜 미정'
+                    : '${todo.dateTime.hour}시 ${todo.dateTime.minute}분',
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
               ),
             ],

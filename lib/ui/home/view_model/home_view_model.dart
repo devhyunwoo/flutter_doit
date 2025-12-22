@@ -57,7 +57,7 @@ class HomeViewModel extends AsyncNotifier<HomeState> {
   Future<void> setEvent(HomeEvent event) async {
     switch (event) {
       case OnClickAddTodo():
-        _effectController.add(ShowBottomSheet());
+        _effectController.add(ShowBottomSheet(todo: event.todo));
       case ReloadData():
         {
           state = const AsyncLoading();

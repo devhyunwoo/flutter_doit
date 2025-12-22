@@ -13,6 +13,7 @@ _$TodoModelImpl _$$TodoModelImplFromJson(Map<String, dynamic> json) =>
       content: json['content'] as String,
       dateTime: DateTime.parse(json['dateTime'] as String),
       isDone: (json['isDone'] as num?)?.toInt() ?? 0,
+      isTBD: (json['isTBD'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$TodoModelImplToJson(_$TodoModelImpl instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$$TodoModelImplToJson(_$TodoModelImpl instance) =>
       'content': instance.content,
       'dateTime': instance.dateTime.toIso8601String(),
       'isDone': instance.isDone,
+      'isTBD': instance.isTBD,
     };

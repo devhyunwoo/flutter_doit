@@ -1,3 +1,4 @@
+import 'package:doit_app/ui/home/contract/state/todo.dart';
 import 'package:doit_app/utils/color_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +7,31 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../di/di.dart';
 
-class HomeBottomSheet extends ConsumerWidget {
-  const HomeBottomSheet({super.key});
+class HomeBottomSheet extends ConsumerStatefulWidget {
+  final TodoModel? currentTodo;
+
+  const HomeBottomSheet({this.currentTodo, super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeBottomSheet> createState() => _HomeBottomSheetState();
+}
+
+class _HomeBottomSheetState extends ConsumerState<HomeBottomSheet> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.currentTodo?.content);
+    if (widget.currentTodo != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(bottomSheetProvider.notifier).setTodo(widget.currentTodo!);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -37,36 +58,75 @@ class HomeBottomSheet extends ConsumerWidget {
     );
   }
 
-  Widget _dateTimeItem(BuildContext context, WidgetRef ref) {
-    final dateTime = ref.watch(bottomSheetProvider).dateTime;
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
 
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () async {
-          final picker = await _showRollingDateTimePicker(context, dateTime);
-          if (picker != null) {
-            ref.read(bottomSheetProvider.notifier).setDateTime(picker);
-          }
-        },
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: BorderSide(color: AppColor.primaryColor, width: 2),
+  Widget _dateTimeItem(BuildContext context, WidgetRef ref) {
+    final todo = ref.watch(bottomSheetProvider);
+
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Checkbox(
+                value: todo.isTBD == 1,
+                onChanged: (checked) {
+                  ref
+                      .read(bottomSheetProvider.notifier)
+                      .setTbd(checked == true ? 1 : 0);
+                },
+              ),
+              Text(
+                '날짜 미정',
+                style: TextStyle(fontSize: 13, color: Colors.black),
+              ),
+            ],
           ),
         ),
-        child: Text(
-          '${dateTime.year}/${dateTime.month}/${dateTime.day} ${dateTime.hour}시 ${dateTime.minute}분',
-          style: TextStyle(fontSize: 18),
+        Align(
+          alignment: Alignment.center,
+          child: SizedBox(
+            child: ElevatedButton(
+              onPressed: () async {
+                if (todo.isTBD == 1) return;
+                final picker = await _showRollingDateTimePicker(
+                  context,
+                  todo.dateTime,
+                );
+                if (picker != null) {
+                  ref.read(bottomSheetProvider.notifier).setDateTime(picker);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(color: AppColor.primaryColor, width: 2),
+                ),
+              ),
+              child: Text(
+                (todo.isTBD == 0)
+                    ? '${todo.dateTime.year}/${todo.dateTime.month}/${todo.dateTime.day} ${todo.dateTime.hour}시 ${todo.dateTime.minute}분'
+                    : '날짜 미정',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 
   Widget _contentItem(WidgetRef ref) {
     return TextField(
-      decoration: const InputDecoration(
+      controller: _controller,
+      decoration: InputDecoration(
         labelText: '내용을 입력하세요',
         labelStyle: TextStyle(color: Colors.black),
         border: OutlineInputBorder(),
@@ -88,7 +148,9 @@ class HomeBottomSheet extends ConsumerWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          ref.read(bottomSheetProvider.notifier).addTodo();
+          ref
+              .read(bottomSheetProvider.notifier)
+              .addTodo(widget.currentTodo != null);
           context.pop();
         },
         style: ElevatedButton.styleFrom(

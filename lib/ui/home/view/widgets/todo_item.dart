@@ -34,54 +34,70 @@ class TodoItem extends ConsumerWidget {
             },
             child: todoModel.imageUrl.isEmpty
                 ? Container(
-                    width: 50,
-                    height: 50,
+                    width: 60,
+                    height: 60,
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black, width: 1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(Icons.add, size: 45.0),
                   )
-                : Image.network(
-                    todoModel.imageUrl,
-                    width: 50,
-                    height: 50,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return const Center(child: CircularProgressIndicator());
-                    },
-                    errorBuilder: (context, error, stackTrace) =>
-                        const Icon(Icons.error, color: Colors.red),
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(
+                      todoModel.imageUrl,
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.fill,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const Center(child: CircularProgressIndicator());
+                      },
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.error, color: Colors.red),
+                    ),
                   ),
           ),
           SizedBox(width: 10),
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  todoModel.content,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    decoration: isDone ? TextDecoration.lineThrough : null,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                ref
+                    .read(homeViewModelProvider.notifier)
+                    .setEvent(OnClickAddTodo(todoModel));
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    todoModel.content,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      decoration: isDone ? TextDecoration.lineThrough : null,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  '${todoModel.dateTime.hour.toString().padLeft(2, '0')}시 ${todoModel.dateTime.minute.toString().padLeft(2, '0')}분',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    decoration: isDone ? TextDecoration.lineThrough : null,
+                  SizedBox(height: 10),
+                  Text(
+                    todoModel.isTBD == 1
+                        ? '날짜 미정'
+                        : '${todoModel.dateTime.hour.toString().padLeft(2, '0')}시 ${todoModel.dateTime.minute.toString().padLeft(2, '0')}분',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      decoration: isDone ? TextDecoration.lineThrough : null,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: AppColor.primaryColor),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColor.primaryColor,
+            ),
             onPressed: () {
               ref
                   .read(homeViewModelProvider.notifier)
